@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<title th:text="Login">Insert title here</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="resources/css/mainWeather.css" th:href="@{resources/css/mainWeather.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/login.css" th:href="@{resources/css/login.css}"/>								
+	</head>
+	<body>
+		<div id="wrapper">
+			<header th:replace="/templates/header/header :: mainHeader">				 
+			</header>		 
+			<nav th:replace="/templates/nav/nav :: mainNav">							
+			</nav>	
+			<div id="mainContent">
+				<div id="subContent">
+					<section id="loginSection" >
+						<article id="loginArt" >
+							<div id="loginDiv" >
+								<h2>Login</h2>								
+								<h3 th:if="${param.error}">Invalid username or password!</h3>
+								<h3 th:if="${param.logout}">You have been logout!</h3>
+								<form th:action="@{/login}" method="post" >									
+									<p><label class="labelRight1" >User name:&nbsp;</label><input type="text" id="username" name="username" /></p>
+									<p><label class="labelRight1">Password:&nbsp;</label><input type="password" id="password" name="password" /></p>
+									<p><input type="submit" id="submitLogin" value="Login" class="button"/></p>	
+									<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />								
+								</form>								
+							</div>
+						</article>
+					</section>					
+				</div>
+			</div>
+			<footer th:replace="/templates/footer/footer :: mainFooter">			
+			</footer>	
+		</div>
+		<script type="text/javascript" src="resources/js/jQuery/jquery-2.1.1.js"></script>				
+		<!-- 
+		<script type="text/javascript" th:inline="javascript">
+			//<![CDATA[	
+					
+			//]]>
+		</script>
+		 -->
+	</body>	
+</html>

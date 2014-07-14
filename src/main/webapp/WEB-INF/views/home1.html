@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<title th:text="test">Insert title here</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8" />
+		<link rel="stylesheet" type="text/css" href="resources/css/mainWeather.css" th:href="@{resources/css/mainWeather.css}"/>						
+	</head>
+	<body>
+	<div id="wrapper">
+		<header th:fragment="mainHeader" id="mainHeader">			 
+			<div id="subHeader">
+				<div id="subHeaderImgCont">
+					<img id="menuImg" alt="=" src="resources/img/threelines.png" />					
+				</div>
+				<div id="dropMenuCont">
+					<ul id="dropMenuUl">
+						<li>
+							<a id="home1" href="#">Home</a>
+						</li>
+						<li>
+							<a href="#">Calendar</a>
+						</li>
+					</ul>
+				</div>
+				<div id="subHeaderTitleCont">
+					<h1 id="siteTitle" >Dream Weather</h1>
+				</div>				
+			</div>			 
+		</header>		 
+		<nav th:fragment="mainNav" id="mainNav">			 
+			<div id="subNav">
+				<div id="mainNavMenuCont">
+					<ul id="mainNavMenuUl">
+						<li>
+							<a id="home0" href="#">Home</a>						
+						</li>
+						<li>
+							<a href="#">Calendar</a>
+						</li>
+					</ul>
+				</div>
+			</div>			
+		</nav>		
+		<div id="mainContent">			
+			<div id="subContent">				
+				<section id="subContSect">									
+					<article id="subContSectArtSearch">
+						<h2 id="headerCity">Search weather for city</h2>
+						<div id="searchCity">						
+							<div id="selCityCont">							
+								<button id="buttonShowCityDropList" class="button" >Select city</button>							
+								<div id="selCityDropDownCont">
+									<form id ="formSelectCity" action="#" method="post" th:object="${weatherLocationShort}" th:action="@{/selected}">  <!-- th:action="#" -->											
+										<select th:field="*{cityShort}">
+											<option th:value="'Trollhättan'">Trollhättan</option>
+											<option th:value="'Göteborg'">Göteborg></option>
+											<option th:value="'Stockholm'">Stockholm</option>
+											<option th:value="'Umeå'">Umeå</option>
+											<option th:value="'New York'">New York</option>
+											<option th:value="'Paris'">Paris</option>
+											<option th:value="'Melbourne'">Melbourne</option>
+											<option th:value="'Tokyo'">Tokyo</option>											
+										</select>										
+										<input type="submit" class="button" id="searchSelCity" value="Search for city" />	
+									</form>	
+								</div>
+							</div>
+							<div id="typeCityCont">
+								<button id="buttonShowTypeCityType" class="button">Type for city </button>
+								<div id="typingCityCont">
+									<form id="typeCityForm" action="#" th:action="@{/typed}"  method="post" th:object="${weatherLocation}" >      <!-- th:action="#" --> 
+										<p class="typeCityParagraph"><label class="labelRight">Country: </label><input type="text" th:field="*{country}" /></p>
+										<p class="typeCityParagraph"><label class="labelRight">District: </label><input type="text" th:field="*{district}" /></p>
+										<p class="typeCityParagraph"><label class="labelRight">City: </label><input type="text" th:field="*{city}" /></p>
+										<input type="submit" class="button" id="searchTypedCity" value="Search for city" />																											
+									</form>
+								</div>
+							</div>
+						</div>			
+					</article>
+					<article id="artWeatherInfo">						
+						<div id="divWeatherInfo">							
+							<h2 id="weatherInfoHeader">Weather data for city</h2>
+							<div id="divPrevNextPic">
+								<div id="divPrev">
+									<img id="imgPrev" alt="&lt;" src="resources/img/prev.png" th:src="@{resources/img/prev.png}" />
+								</div>
+								<div>
+									<h3 id="weatherArrController"></h3>
+								</div>
+								<div id="divNext">
+									<img id="imgNext" alt="&gt;" src="resources/img/prev.png" th:src="@{resources/img/next.png}" />
+								</div>
+							</div>
+							<div id="divLocation">								
+								<p><label class="labelRight" >City:&nbsp;</label><label id="city1" class="labelLeft" th:text="${weatherData.get(0).getCity()}"></label></p>								
+								<p><label class="labelRight" >Country:&nbsp;</label><label id="country1" class="labelLeft" th:text="${weatherData.get(0).getCountry()}"></label></p>								
+								<p><label class="labelRight" >Time zone:&nbsp;</label><label id="timeZone" class="labelLeft" th:text="${weatherData.get(0).getTimeZone()}"></label></p>
+							</div>
+							<div id="divTime">								
+								<p><label class="labelRight" >Time from:&nbsp;</label><label id="timeFrom" class="labelLeft" >20.00</label></p>									
+								<p><label class="labelRight" >Time to:&nbsp;</label><label id="timeTo" class="labelLeft" >00.00</label></p>
+								<p class="empty"><label class="labelRight" ></label><label class="labelLeft" ></label></p>														
+							</div>
+							<div id="divTempWeatherDesc">								
+								<p><label class="labelRight" >Temperature:&nbsp;</label><label id="temp" class="labelLeft" >24</label></p>								
+								<p><label class="labelRight" >Decription:&nbsp;</label><label id="weatherDesc" class="labelLeft" >Partly cloudy</label></p>
+								<p><img alt="#" src="#" id="weatherImg" /></p>
+								<!-- <p class="empty"><label class="labelRight" ></label><label class="labelLeft" ></label></p> -->
+							</div>
+							<div id="divWind">								
+								<p><label class="labelRight" >Wind direction:&nbsp;</label><label id="windDir" class="labelLeft" >North-west</label></p>								
+								<p><label class="labelRight" >Windspeed:&nbsp;</label><label id="windSpeed" class="labelLeft" >25</label></p>								
+								<p><label class="labelRight" >Wind description:&nbsp;</label><label id="windSpeedDesc" class="labelLeft" >Breeze</label></p>
+							</div>
+							<div id="divPresipitation">								
+								<p><label class="labelRight" >Presipitation:&nbsp;</label><label id="presipitation" class="labelLeft" >0</label></p>
+								<p class="empty"><label class="labelRight" ></label><label class="labelLeft" ></label></p>
+								<p class="empty"><label class="labelRight" ></label><label class="labelLeft" ></label></p>
+							</div>
+							<div id="divAirPressure">								
+								<p><label class="labelRight" >Air pressure:&nbsp;</label><label id="airPressure" class="labelLeft" >0</label></p>								
+								<p><label class="labelRight" >Unit:&nbsp;</label><label id="pressUnit" class="labelLeft" >0</label></p>								
+								<p class="empty"><label class="labelRight" ></label><label class="labelLeft" ></label></p>								
+							</div>
+						</div>						
+					</article>					
+				</section>
+				<aside id="subContAside">
+					<h1>Commersial</h1>					
+				</aside>	
+			</div>						 
+		</div>		
+		<footer th:fragment="mainFooter" id="mainFooter">
+			<div id="subFooter">
+				<ul class="subFooterUlList">
+					<li>
+						<p>@Ronnang AB</p>
+						<p>This site is for training only, <br />
+						it has no purpose<br />
+						to make any profit.</p>
+					</li>
+				</ul>				
+				<ul class="subFooterUlList">
+					<li>
+						<p><b>Credentials:</b></p>						
+						<p><span>Name: </span>Marcus Ronnang</p>
+						<p><span>Adress</span>Hjortmossegatan 91</p>
+						<p><span>Postnr/City</span>461 51 Trollhattan</p>
+						
+					</li>
+				</ul>
+				<ul class="subFooterUlList">
+					<li>
+						<p><b>Credentials:</b></p>						
+						<p><span>Mail: </span>marcusronnang@hotmail.com</p>
+						<p><span>Phone: </span>0735 04 09 94</p>
+						
+					</li>
+				</ul>
+			</div>
+		</footer>
+		<script></script>
+		<script type="text/javascript" src="resources/js/jQuery/jquery-2.1.1.js"></script>
+		<!-- <script type="text/javascript" src="resources/js/weather.js" th:src="@{resources/js/weather.js}" th:inline="text" ></script> -->		  
+		<script type="text/javascript" th:inline="javascript">
+		//<![CDATA[	
+					$(document).ready(function(){
+					var counter=1;
+					var sizeOfArray=0;
+					var weatherCollection = /*[[${weatherData}]]*/ 'value';
+					
+					var choosenPage = /*[[${navSelPage}]]*/ 'page';					
+					var page=choosenPage.selectedPage;
+					/*
+					for (var key in choosenPage) {
+						alert("Key: " + key + " Value is: " + choosenPage[key]);						  
+					}
+					*/										
+					if(page.localeCompare("Home") == 0){
+						var pageAnchor=document.getElementById("home0");
+						pageAnchor.style.backgroundColor="#FFFFFF";
+						pageAnchor.style.color="#000000";
+						pageAnchor=document.getElementById("home1");						
+						pageAnchor.style.textShadow ="3px 3px 0 #000000";						
+					}					
+					sizeOfArray=weatherCollection.length - 1;
+					//alert("Length is: " + sizeOfArray);
+					
+					$("#weatherArrController").text(counter + " of " + sizeOfArray);  
+					
+					//alert(weatherCollection);					
+					/*-----------------Sets wether of wished weather object on labels-------------------------------*/
+					setWeather(1);					
+					/*---------------------------Show hide search menus on click------------------------------------*/
+					$("#buttonShowCityDropList").click(function(){
+						//alert("Clicked!");
+						$("#selCityDropDownCont").slideToggle();
+					});
+					$("#buttonShowTypeCityType").click(function(){
+						//alert("Clicked!");
+						$("#typingCityCont").slideToggle();
+					});	
+					$("#menuImg").click(function (){
+						//alert("Clicked");
+						$("#dropMenuCont").slideToggle();
+					});					
+					/*------------------On click add/subtract counter and show new weatherinfo-----------------------*/					
+					$("#divPrev").click(function(){
+						//alert("Prev");
+						--counter;
+						if(counter < 1){
+							//alert("To small");
+							counter=1;							
+						}	
+						$("#weatherArrController").text(counter + " of " + sizeOfArray);
+						setWeather(counter);
+						
+					});
+					$("#divNext").click(function(){
+						++counter;
+						//alert("Prev");
+						if(counter >= sizeOfArray){
+							//alert("To to big");
+							counter=sizeOfArray;
+						}	
+						$("#weatherArrController").text(counter + " of " + sizeOfArray);
+						setWeather(counter);
+					});
+					
+					/*----------------------------FUNCTIONS-----------------------------------------------------*/
+					function setWeather(number) {
+						var weatherObj=weatherCollection[number];						
+						//alert(weatherObj);
+						//print_r(weatherObj);						
+						
+						for (var key in weatherObj) {
+							//alert("Key: " + key + " Value is: " + weatherObj[key]);						  
+						}
+						var timeFrom=document.getElementById("timeFrom");						
+						var timeFrom1=weatherObj.timeFrom;						
+						var timeRed1=timeFrom1.substring(11,19);
+						//alert(timeRed1);
+						timeFrom.innerHTML=timeRed1;							
+						
+						var timeTo=document.getElementById("timeTo");
+						var timeTo1=weatherObj.timeTo;						
+						var timeRed2=timeTo1.slice(11,19);						
+						timeTo.innerHTML=timeRed2;
+						//alert(timeRed2);
+						
+						var temp=document.getElementById("temp");
+						temp.innerHTML=weatherObj.temperature;											
+						
+						var weatherDec=document.getElementById("weatherDesc");
+						weatherDec.innerHTML=weatherObj.weatherDescription;						
+						
+						/*-------------------SET IMAGE------------------------------------------------------*/
+						var weatherDescription=weatherObj.weatherDescription;
+						var weatherImg=document.getElementById("weatherImg");
+						
+						if(weatherDescription.localeCompare("Partly cloudy") == 0){
+							weatherImg.src="resources/img/weatherImg/3.png";
+							weatherImg.alt="Partly cloudy";
+						}						
+						else if(weatherDescription.localeCompare("Clear sky") == 0){
+							weatherImg.src="resources/img/weatherImg/1d.png";
+							weatherImg.alt="Clear sky";
+						}
+						else if(weatherDescription.localeCompare("Fair") == 0){
+							weatherImg.src="resources/img/weatherImg/2.png";
+							weatherImg.alt="Fair";
+						}						
+						else if(weatherDescription.localeCompare("Cloudy") == 0){
+							weatherImg.src="resources/img/weatherImg/04.png";
+							weatherImg.alt="Cloudy";
+						}
+						else if(weatherDescription.localeCompare("Rain showers") == 0){
+							weatherImg.src="resources/img/weatherImg/5.png";
+							weatherImg.alt="Rain showers";
+						}
+						else if(weatherDescription.localeCompare("Rain showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/6.png";
+							weatherImg.alt="Rain showers AND thunder";
+						}
+						else if(weatherDescription.localeCompare("Sleet showers") == 0){
+							weatherImg.src="resources/img/weatherImg/7.png";
+							weatherImg.alt="Sleet showers";
+						}
+						else if(weatherDescription.localeCompare("Snow showers") == 0){
+							weatherImg.src="resources/img/weatherImg/8.png";
+							weatherImg.alt="Snow showers";
+						}						
+						else if(weatherDescription.localeCompare("Rain") == 0){
+							weatherImg.src="resources/img/weatherImg/09.png";
+							weatherImg.alt="Rain";
+						}						
+						else if(weatherDescription.localeCompare("Heavy rain") == 0){
+							weatherImg.src="resources/img/weatherImg/10.png";
+							weatherImg.alt="Heavy rain";
+						}
+						else if(weatherDescription.localeCompare("Heavy rain and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/11.png";
+							weatherImg.alt="Heavy rain and thunder";
+						}	
+						else if(weatherDescription.localeCompare("Sleet") == 0){
+							weatherImg.src="resources/img/weatherImg/12.png";
+							weatherImg.alt="Sleet";
+						}
+						else if(weatherDescription.localeCompare("Snow") == 0){
+							weatherImg.src="resources/img/weatherImg/13.png";
+							weatherImg.alt="Snow";
+						}
+						else if(weatherDescription.localeCompare("Snow and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/14.png";
+							weatherImg.alt="Snow and thunder";
+						}						
+						else if(weatherDescription.localeCompare("Fog") == 0){
+							weatherImg.src="resources/img/weatherImg/15.png";
+							weatherImg.alt="Fog";
+						}						
+						else if(weatherDescription.localeCompare("Sleet showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/20.png";
+							weatherImg.alt="Sleet showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Snow showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/21.png";
+							weatherImg.alt="Snow showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Rain and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/22.png";
+							weatherImg.alt="Rain and thunder";
+						}
+						else if(weatherDescription.localeCompare("Sleet and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/23.png";
+							weatherImg.alt="Sleet and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light rain showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/24.png";
+							weatherImg.alt="Light rain showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Heavy rain showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/25.png";
+							weatherImg.alt="Heavy rain showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light sleet showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/26.png";
+							weatherImg.alt="Light sleet showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Heavy sleet showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/27.png";
+							weatherImg.alt="Heavy sleet showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light snow showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/28.png";
+							weatherImg.alt="Light snow showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Heavy snow showers and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/29.png";
+							weatherImg.alt="Heavy snow showers and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light rain and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/30.png";
+							weatherImg.alt="Light rain and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light sleet and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/31.png";
+							weatherImg.alt="Light sleet and thunder";
+						}
+						else if(weatherDescription.localeCompare("Heavy sleet and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/32.png";
+							weatherImg.alt="Heavy sleet and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light snow and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/33.png";
+							weatherImg.alt="Light snow and thunder";
+						}
+						else if(weatherDescription.localeCompare("Heavy snow and thunder") == 0){
+							weatherImg.src="resources/img/weatherImg/34.png";
+							weatherImg.alt="Heavy snow and thunder";
+						}
+						else if(weatherDescription.localeCompare("Light rain showers") == 0){
+							weatherImg.src="resources/img/weatherImg/40.png";
+							weatherImg.alt="Light rain showers";
+						}
+						else if(weatherDescription.localeCompare("Heavy rain showers") == 0){
+							weatherImg.src="resources/img/weatherImg/41.png";
+							weatherImg.alt="Heavy rain showers";
+						}
+						else if(weatherDescription.localeCompare("Light sleet showers") == 0){
+							weatherImg.src="resources/img/weatherImg/42.png";
+							weatherImg.alt="Light sleet showers";
+						}
+						else if(weatherDescription.localeCompare("Heavy sleet showers") == 0){
+							weatherImg.src="resources/img/weatherImg/43.png";
+							weatherImg.alt="Heavy sleet showers";
+						}
+						else if(weatherDescription.localeCompare("Light snow showers") == 0){
+							weatherImg.src="resources/img/weatherImg/44.png";
+							weatherImg.alt="Light snow showers";
+						}
+						else if(weatherDescription.localeCompare("Heavy snow showers") == 0){
+							weatherImg.src="resources/img/weatherImg/45.png";
+							weatherImg.alt="Heavy snow showers";
+						}
+						else if(weatherDescription.localeCompare("Light rain") == 0){
+							weatherImg.src="resources/img/weatherImg/46.png";
+							weatherImg.alt="Light rain";
+						}
+						else if(weatherDescription.localeCompare("Light sleet") == 0){
+							weatherImg.src="resources/img/weatherImg/47.png";
+							weatherImg.alt="Light sleet";
+						}
+						else if(weatherDescription.localeCompare("Heavy sleet") == 0){
+							weatherImg.src="resources/img/weatherImg/48.png";
+							weatherImg.alt="Heavy sleet";
+						}
+						else if(weatherDescription.localeCompare("Light snow") == 0){
+							weatherImg.src="resources/img/weatherImg/49.png";
+							weatherImg.alt="Light snow";
+						}
+						else if(weatherDescription.localeCompare("Heavy snow") == 0){
+							weatherImg.src="resources/img/weatherImg/50.png";
+							weatherImg.alt="Heavy snow";
+						}						
+						
+						var windDir=document.getElementById("windDir");
+						windDir.innerHTML=weatherObj.windDirection;
+						
+						var windSpeed=document.getElementById("windSpeed");
+						windSpeed.innerHTML=weatherObj.windSpeed;
+						
+						var windSpeedDesc=document.getElementById("windSpeedDesc");
+						windSpeedDesc.innerHTML=weatherObj.windSpeedDescription;
+						
+						var presipitation=document.getElementById("presipitation");
+						presipitation.innerHTML=weatherObj.precipitation;
+						
+						var airPressure=document.getElementById("airPressure");
+						airPressure.innerHTML=weatherObj.pressureValue;
+						
+						var pressUnit=document.getElementById("pressUnit");
+						pressUnit.innerHTML=weatherObj.pressureUnit;						
+						
+						//alert(time);
+						//alert(weatherObj.timeFrom);						
+					}					
+				});	
+					//]]>
+		</script>
+	</div>	
+	</body>
+</html>

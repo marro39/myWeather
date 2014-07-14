@@ -1,0 +1,19 @@
+<nav th:fragment="mainNav" id="mainNav">			 
+	<div id="subNav">
+		<div id="mainNavMenuCont">
+			<ul id="mainNavMenuUl">
+				<li>
+					<a id="home0" href="#">Home</a>						
+				</li>
+				<li>
+					<a href="#">Calendar</a>
+				</li>
+				<li>
+					<form th:action="@{/logout}" method="post">
+            			<input type="submit" value="Sign Out" style="color:white;" />
+        			</form>
+				</li>				
+			</ul>
+		</div>
+	</div>			
+</nav>	
