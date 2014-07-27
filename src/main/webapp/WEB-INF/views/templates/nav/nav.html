@@ -6,16 +6,11 @@
 					<a id="home0" href="/home" th:href="@{/home}">Home</a>						
 				</li>
 				<li>
-					<a href="#">Calendar</a>
-				</li>
-				<li>
-					<a id="login0" href="/login" th:href="@{/login}" >Login</a>
-				</li>
-				<li>
-					<form th:action="@{/logout}" method="post">
-            			<input type="submit" value="Sign Out" style="color:white;" />
-        			</form>
+					<a id="calendar0" href="/calendar" th:href="@{/calendar}" >Calendar</a>
 				</li>				
+				<li th:unless="${accessLevel == '[ROLE_ADMIN]'}">					
+					<a id="login0" href="/login" th:href="@{/login}" >Login</a>
+				</li>								
 			</ul>
 		</div>
 	</div>
@@ -37,6 +32,13 @@
 					pageAnchor.style.backgroundColor="#FFFFFF";
 					pageAnchor.style.color="#000000";
 					pageAnchor=document.getElementById("login1");						
+					pageAnchor.style.textShadow ="3px 3px 0 #000000";	
+				}
+				else if(page.localeCompare("calendar") == 0){
+					var pageAnchor=document.getElementById("calendar0");
+					pageAnchor.style.backgroundColor="#FFFFFF";
+					pageAnchor.style.color="#000000";
+					pageAnchor=document.getElementById("calendar1");						
 					pageAnchor.style.textShadow ="3px 3px 0 #000000";	
 				}
 			});

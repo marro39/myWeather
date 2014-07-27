@@ -19,7 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         http
             .authorizeRequests()
                 //.antMatchers("/","/typed", "/selected").permitAll();
-            	.antMatchers("/","/typed", "/selected").hasRole("USER");
+            	.antMatchers("/", "/home","/typed", "/selected", "/calendar").hasRole("ADMIN");
                 //.anyRequest().authenticated();              
         http
             .formLogin()
@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .inMemoryAuthentication()
-                .withUser("marcus").password("ronnang").roles("USER");
+                .withUser("marcus").password("ronnang").roles("ADMIN");
     }
     @Bean
     @Override

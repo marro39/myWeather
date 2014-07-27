@@ -1,8 +1,17 @@
 <header th:fragment="mainHeader" id="mainHeader">			 
 	<div id="subHeader">
+		<div id="topMenuCont">
+			<ul id="topMenuUl">
+				<li th:if="${accessLevel == '[ROLE_ADMIN]'}">
+					<form th:action="@{/logout}" method="post">
+            			<input type="submit" value="Logout" />
+        			</form>
+				</li>
+			</ul>
+		</div>
 		<div id="subHeaderTitleCont">
 			<h1 id="siteTitle" >Dream Weather</h1>
-		</div>	
+		</div>			
 		<div id="subHeaderImgCont">
 			<img id="menuImg" alt="=" src="resources/img/threelines.png" />					
 		</div>
@@ -12,9 +21,9 @@
 					<a id="home1" href="/home" th:href="@{/home}" >Home</a>
 				</li>
 				<li>
-					<a href="#">Calendar</a>
+					<a id="calendar1" href="/calendar" th:href="@{/calendar}" >Calendar</a>
 				</li>
-				<li>
+				<li th:unless="${accessLevel == '[ROLE_ADMIN]'}">
 					<a id="login1" href="/login" th:href="@{/login}" >Login</a>
 				</li>
 			</ul>

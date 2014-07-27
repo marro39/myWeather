@@ -14,6 +14,8 @@ import org.myWeather.web.domain.WeatherDataCollection;
 import org.myWeather.web.domain.WeatherLocShort;
 import org.myWeather.web.domain.WeatherLocation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,9 @@ public class HomeController {
 	private WeatherDataCollection myWeatherDataCollection;
 	@Autowired 
 	private Navigation navSelPage;
+	
+	//Spring security authentication
+	private Authentication auth;
 	
 	RestTemplate restTemplate;
 	String link;	
@@ -78,6 +83,10 @@ public class HomeController {
 		navSelPage.setSelectedPage("home");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
+		
+		//Add user access level to model
+		setAccesslevel(model);
+		
 		return "home";			
 	}
 	
@@ -133,6 +142,10 @@ public class HomeController {
 		navSelPage.setSelectedPage("home");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
+		
+		//Add user access level to model
+		setAccesslevel(model);
+		
 		return "home";
 	}
 	
@@ -226,6 +239,10 @@ public class HomeController {
 		navSelPage.setSelectedPage("home");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
+		
+		//Add user access level to model
+		setAccesslevel(model);
+		
 		return "home";
 	}
 	
@@ -237,6 +254,10 @@ public class HomeController {
 		navSelPage.setSelectedPage("login");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
+		
+		//Add user access level to model
+		setAccesslevel(model);
+		
 		return "login";
 	}
 	
@@ -279,7 +300,12 @@ public class HomeController {
 			WeatherDataCollection myWeatherDataCollection) {
 		this.myWeatherDataCollection = myWeatherDataCollection;
 	}
-	
+	public void setAccesslevel(Model model){
+		auth = SecurityContextHolder.getContext().getAuthentication();
+		String accessLevel= auth.getAuthorities().toString();
+		System.out.println("User access level is: " + accessLevel);
+		model.addAttribute("accessLevel", accessLevel);		
+	}
 	
 	
 }

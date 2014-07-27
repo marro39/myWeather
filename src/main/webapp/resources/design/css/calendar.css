@@ -1,0 +1,22 @@
+#mainContent{
+	position:static;
+	display:block;	
+	margin:0%;
+	padding:0%;	
+	width:100%;
+	background-color: rgb(255,255,255);	
+	padding-bottom: 185px;   			/*ONLY FOR MAKING THE FOOTER AT BOTTOM OF PAGE AND MAKING ALL 
+											CONTENT IN BODY CONTAINER FIT IN!*/	
+	border-bottom: 2px solid green;		
+}
+#mainContent > #subContent{
+	display:flex;
+	flex-direction:row;
+	width:65%;
+	height:100%;
+	background-color: rgb(255,255,255);
+	margin:0% auto;
+	padding:0%;
+	/*border-left:1px solid rgb(0,0,0);*/	
+	/*border-right:1px solid rgb(0,0,0);*/
+}

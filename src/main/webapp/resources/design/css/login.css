@@ -54,6 +54,13 @@
 	width:50%;
 	/*border:1px solid purple;*/
 }
+#mainContent > #subContent > #loginSection #loginArt #loginDiv > p{
+	display:flex;
+	flex-direction:row;
+	width:50%;
+	/*border:1px solid purple;*/
+	justify-content:center;
+}
 #mainContent > #subContent > #loginSection #loginArt #loginDiv > #loginDivHeader > h2{
 	display:flex;
 	flex-direction:row;
@@ -87,6 +94,10 @@
 .red{color:red;}
 .green{color:green;}
 @media screen and (max-width:850px) and (min-width:1px){
+	
+	#mainContent{
+		padding-bottom: 410px; 
+	}
 	#mainContent > #subContent > #loginSection #loginArt #loginDiv{
 		width:100%;
 	}

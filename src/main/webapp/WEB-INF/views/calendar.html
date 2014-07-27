@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<title th:text="Login">Insert title here</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8" />		
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/htmlBodyWrapper.css" th:href="@{resources/css/templates/default/htmlBodyWrapper.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/header/header.css" th:href="@{resources/css/templates/header/header.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/nav/navigation.css" th:href="@{resources/css/templates/nav/navigation.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/calendar.css" th:href="@{resources/css/calendar.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/footer/footer.css" th:href="@{resources/css/templates/footer/footer.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/default.css" th:href="@{resources/css/templates/default/default.css}"/>								
+	</head>
+	<body>
+		<div id="wrapper">
+			<header th:replace="/templates/header/header :: mainHeader"></header>
+			<nav th:replace="/templates/nav/nav :: mainNav"></nav>	
+			<div id="mainContent">
+				<div id="subContent">
+					<section id="mainCalendar">
+						<h1>Calendar</h1>
+					</section>
+				</div>
+			</div>
+			<footer th:replace="/templates/footer/footer :: mainFooter"></footer>
+		</div>
+	</body>
+</html>
