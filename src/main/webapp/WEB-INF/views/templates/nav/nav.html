@@ -3,10 +3,13 @@
 		<div id="mainNavMenuCont">
 			<ul id="mainNavMenuUl">
 				<li>
-					<a id="home0" href="#">Home</a>						
+					<a id="home0" href="/home" th:href="@{/home}">Home</a>						
 				</li>
 				<li>
 					<a href="#">Calendar</a>
+				</li>
+				<li>
+					<a id="login0" href="/login" th:href="@{/login}" >Login</a>
 				</li>
 				<li>
 					<form th:action="@{/logout}" method="post">
@@ -15,5 +18,28 @@
 				</li>				
 			</ul>
 		</div>
-	</div>			
+	</div>
+	<script type="text/javascript" src="resources/js/jQuery/jquery-2.1.1.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+		//<![CDATA[	
+			$(document).ready(function(){
+				var choosenPage = /*[[${navSelPage}]]*/ 'page';					
+				var page=choosenPage.selectedPage;
+				if(page.localeCompare("home") == 0){
+					var pageAnchor=document.getElementById("home0");
+					pageAnchor.style.backgroundColor="#FFFFFF";
+					pageAnchor.style.color="#000000";
+					pageAnchor=document.getElementById("home1");						
+					pageAnchor.style.textShadow ="3px 3px 0 #000000";						
+				}	
+				else if(page.localeCompare("login") == 0){
+					var pageAnchor=document.getElementById("login0");
+					pageAnchor.style.backgroundColor="#FFFFFF";
+					pageAnchor.style.color="#000000";
+					pageAnchor=document.getElementById("login1");						
+					pageAnchor.style.textShadow ="3px 3px 0 #000000";	
+				}
+			});
+		//]]>
+	</script>	           
 </nav>	

@@ -1,0 +1,99 @@
+/*-------------------------------------HEADER--------------------------------------------------------------------------*/
+#mainHeader{		
+	position:static;
+	display:block;	
+	background-color:rgb(58,82,242);	
+	width:100%;	
+	margin:0%;
+	padding:0%;	
+}
+#mainHeader > #subHeader{
+	width:65%;
+	display:flex;
+	flex-direction:column;
+	margin:0% auto;
+	padding:0%;
+	height:100%;
+	/*border-left:1px solid rgb(255,255,255);*/	
+	/*border-right:1px solid rgb(255,255,255);*/
+}
+#mainHeader > #subHeader > #subHeaderImgCont{
+	display:none;	
+	flex-direction:column;
+	width:40px;
+	height:40px;
+	margin:2px;
+	/*border:3px solid red;*/	
+}
+#mainHeader > #subHeader > #subHeaderImgCont > #menuImg{
+	height:100%;
+	width:100%;
+}
+#mainHeader > #subHeader > #dropMenuCont{
+	display:none;	
+	width:100%;	
+	border:1px solid black;
+	margin:0%;
+	padding:0%;
+	flex-direction:column;
+	align-items:center;
+}
+#mainHeader > #subHeader > #dropMenuCont > #dropMenuUl{
+	list-style:none;
+	display:flex;
+	flex-direction:column;	
+	/*border:2px solid gray;*/	
+	margin:0%;
+	padding:0%;
+	align-items:center;
+	width:100%;
+}
+#mainHeader > #subHeader > #dropMenuCont > #dropMenuUl > li{
+	display:flex;
+	flex-direction:column;
+	/*border:1px solid orange;*/
+	/*width:100px;*/	
+	height:30px;
+	margin:0%;
+	padding:0%;
+	align-items:center;
+}
+#mainHeader > #subHeader > #dropMenuCont > #dropMenuUl > li > a{
+	display:flex;
+	flex-direction:column;	
+	/*border:1px solid rgb(0,0,0);*/
+	color: rgb(255,255,255);		
+	text-decoration:none;
+	width:100%;
+	height:100%;
+	font-size:20px;
+	align-items:center;
+	justify-content:center;	
+	margin:0%;
+	padding:0%;
+}
+#mainHeader > #subHeader > #dropMenuCont > #dropMenuUl > li:hover > a{
+	font-weight:bold;
+}
+#mainHeader > #subHeader > #subHeaderTitleCont{
+	display:flex;
+	flex-direction:column;	
+}
+#mainHeader > #subHeader > #subHeaderTitleCont > #siteTitle{
+	text-shadow: 3px 3px rgb(0,0,0);
+	color: rgb(255,255,255)	;
+	margin-left:2%;
+}
+/*------------------------------------------------@MEDIA--------------------------------------------------------------------------*/
+@media screen and (max-width:850px) and (min-width:1px){
+	/*--------------------------------------HEADER SECTION----------------------------------*/
+	#mainHeader{
+		/*height:125px;*/ 
+	}
+	#mainHeader > #subHeader{
+		width:100%;
+	}	
+	#mainHeader > #subHeader > #subHeaderImgCont{
+		display:flex;
+	}	
+}

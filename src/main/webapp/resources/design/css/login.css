@@ -1,3 +1,25 @@
+#mainContent{
+	position:static;
+	display:block;	
+	margin:0%;
+	padding:0%;	
+	width:100%;
+	background-color: rgb(255,255,255);	
+	padding-bottom: 185px;   			/*ONLY FOR MAKING THE FOOTER AT BOTTOM OF PAGE AND MAKING ALL 
+											CONTENT IN BODY CONTAINER FIT IN!*/	
+	border-bottom: 2px solid green;		
+}
+#mainContent > #subContent{
+	display:flex;
+	flex-direction:row;
+	width:65%;
+	height:100%;
+	background-color: rgb(255,255,255);
+	margin:0% auto;
+	padding:0%;
+	/*border-left:1px solid rgb(0,0,0);*/	
+	/*border-right:1px solid rgb(0,0,0);*/
+}
 #mainContent > #subContent > #loginSection{
 	display:flex;
 	flex-direction:column;
@@ -12,23 +34,32 @@
 	width:100%;
 	margin:0%;
 	padding:0%;
-	align-items:center;
-	/*border:1px solid red;*/	
+	align-items:flex-start;
+	/*border:1px solid red;*/
+	/*margin-left:2%;*/	
 }
 #mainContent > #subContent > #loginSection #loginArt #loginDiv{
 	display:flex;
 	flex-direction:column;
-	width:50%;
+	width:100%;
 	margin:0%;
 	padding:0%;	
-	border:1px solid black;	
-	align-items:center;
+	/*border:1px solid black;*/	
+	align-items:flex-start;
 }
-#mainContent > #subContent > #loginSection #loginArt #loginDiv > form{
+#mainContent > #subContent > #loginSection #loginArt #loginDiv > form,
+#mainContent > #subContent > #loginSection #loginArt #loginDiv > #loginDivHeader{
 	display:flex;
 	flex-direction:column;
-	width:70%;
-	border:1px solid purple;
+	width:50%;
+	/*border:1px solid purple;*/
+}
+#mainContent > #subContent > #loginSection #loginArt #loginDiv > #loginDivHeader > h2{
+	display:flex;
+	flex-direction:row;
+	width:100%;
+	justify-content:center;
+	/*border:1px solid purple;*/
 }
 #mainContent > #subContent > #loginSection #loginArt #loginDiv > form > p{
 	display:flex;
@@ -38,23 +69,29 @@
 }
 #mainContent > #subContent > #loginSection #loginArt #loginDiv > form > p > #submitLogin{
 	margin-left:auto;
-	width:50%;
+	width:65%;
 }
 #mainContent > #subContent > #loginSection #loginArt #loginDiv > form > p > input[type="text"]{
-	width:50%;
+	width:65%;
+}
+#mainContent > #subContent > #loginSection #loginArt #loginDiv > form > p > input[type="password"]{
+	width:65%;
 }
 .labelRight1{
-	width:50%;	 
+	width:35%;	 
 	font-weight:bold;
 	/*border:1px solid orange;*/
 	text-align:right;
 	/*display:inline-block;*/
 }
+.red{color:red;}
+.green{color:green;}
 @media screen and (max-width:850px) and (min-width:1px){
 	#mainContent > #subContent > #loginSection #loginArt #loginDiv{
 		width:100%;
 	}
-	#mainContent > #subContent > #loginSection #loginArt #loginDiv > form{
+	#mainContent > #subContent > #loginSection #loginArt #loginDiv > form,
+	#mainContent > #subContent > #loginSection #loginArt #loginDiv > #loginDivHeader{
 		width:100%;
 	}
 	#mainContent > #subContent > #loginSection #loginArt #loginDiv > form > p{

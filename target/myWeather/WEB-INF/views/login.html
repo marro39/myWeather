@@ -3,9 +3,13 @@
 	<head>	
 		<title th:text="Login">Insert title here</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta charset="UTF-8" />
-		<link rel="stylesheet" type="text/css" href="resources/css/mainWeather.css" th:href="@{resources/css/mainWeather.css}"/>
-		<link rel="stylesheet" type="text/css" href="resources/css/login.css" th:href="@{resources/css/login.css}"/>								
+		<meta charset="UTF-8" />		
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/htmlBodyWrapper.css" th:href="@{resources/css/templates/default/htmlBodyWrapper.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/header/header.css" th:href="@{resources/css/templates/header/header.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/nav/navigation.css" th:href="@{resources/css/templates/nav/navigation.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/login.css" th:href="@{resources/css/login.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/footer/footer.css" th:href="@{resources/css/templates/footer/footer.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/default.css" th:href="@{resources/css/templates/default/default.css}"/>								
 	</head>
 	<body>
 		<div id="wrapper">
@@ -18,9 +22,9 @@
 					<section id="loginSection" >
 						<article id="loginArt" >
 							<div id="loginDiv" >
-								<h2>Login</h2>								
-								<h3 th:if="${param.error}">Invalid username or password!</h3>
-								<h3 th:if="${param.logout}">You have been logout!</h3>
+								<div id="loginDivHeader"><h2>Login</h2></div>																
+								<p class="red" th:if="${param.error}">Invalid username or password!</p>
+								<p class="green" th:if="${param.logout}">You have been logout!</p>
 								<form th:action="@{/login}" method="post" >									
 									<p><label class="labelRight1" >User name:&nbsp;</label><input type="text" id="username" name="username" /></p>
 									<p><label class="labelRight1">Password:&nbsp;</label><input type="password" id="password" name="password" /></p>

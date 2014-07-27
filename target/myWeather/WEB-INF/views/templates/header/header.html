@@ -1,20 +1,51 @@
 <header th:fragment="mainHeader" id="mainHeader">			 
 	<div id="subHeader">
+		<div id="subHeaderTitleCont">
+			<h1 id="siteTitle" >Dream Weather</h1>
+		</div>	
 		<div id="subHeaderImgCont">
 			<img id="menuImg" alt="=" src="resources/img/threelines.png" />					
 		</div>
 		<div id="dropMenuCont">
 			<ul id="dropMenuUl">
 				<li>
-					<a id="home1" href="#">Home</a>
+					<a id="home1" href="/home" th:href="@{/home}" >Home</a>
 				</li>
 				<li>
 					<a href="#">Calendar</a>
 				</li>
+				<li>
+					<a id="login1" href="/login" th:href="@{/login}" >Login</a>
+				</li>
 			</ul>
-		</div>
-		<div id="subHeaderTitleCont">
-			<h1 id="siteTitle" >Dream Weather</h1>
-		</div>				
-	</div>			 
+		</div>					
+	</div>
+	<script type="text/javascript" src="resources/js/jQuery/jquery-2.1.1.js"></script>
+	<script type="text/javascript" th:inline="javascript">
+		//<![CDATA[	
+			$(document).ready(function(){
+				var checkWindowWidthTimer = setInterval(function(){checkDropMenuSize()}, 10000);				
+				//Show dropmenu when click on dropmenuImage
+				$("#menuImg").click(function (){
+					//alert("Clicked");
+					$("#dropMenuCont").slideToggle();
+				});			
+				/*-------------------------------------FUNCTIONS--------------------------------------------------*/
+				//If window size is to large hide dropmenu				
+				function checkDropMenuSize(){
+					var windowWidth = window.innerWidth;
+					/*alert(windowWidth);*/
+					if(windowWidth > 850){
+						$("#dropMenuCont").css("display", "none");
+					}
+				}	
+			});
+				
+			
+				
+				
+			
+			
+		//]]>
+	</script>
 </header>	

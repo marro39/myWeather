@@ -1,0 +1,69 @@
+/*------------------------------------------NAVIGATION-------------------------------------------------------------*/
+#mainNav{		 
+	position:static;
+	display:block;	
+	width:100%;	
+	margin:0%;
+	padding:0%;	
+	background-color:rgb(58,82,242);		
+}
+#mainNav > #subNav{
+	display:flex;
+	flex-direction:column;
+	width:65%;	
+	background-color: rgb(31,51,183);
+	margin:0% auto;
+	padding:0%;
+	/*border-left:1px solid rgb(0,0,0);*/	
+	/*border-right:1px solid rgb(0,0,0);*/
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+}
+#mainNav > #subNav > #mainNavMenuCont{
+	display:flex;
+	flex-direction:column;	
+	margin:0%;
+	padding:0%;	
+}
+#mainNav > #subNav > #mainNavMenuCont > #mainNavMenuUl{
+	list-style:none;
+	display:flex;
+	flex-direction:row;	
+	margin:0%;	
+	padding: 0% 2% 0% 2%;
+}
+#mainNav > #subNav > #mainNavMenuCont > #mainNavMenuUl > li{
+	display:flex;
+	flex-direction:column;
+	height:45px;
+	margin:0%;	
+	/*border:2px solid red;*/
+	width:12%;			
+}
+#mainNav > #subNav > #mainNavMenuCont > #mainNavMenuUl > li > a{
+	display:flex;
+	flex-direction:column;
+	width:100%;
+	height:100%;
+	color: rgb(255,255,255);
+	font-size: 20px;	
+	margin:0%;
+	padding:0%;	
+	text-decoration: none;	
+	justify-content:center;
+	align-items:center;		
+	border-right: 1px solid black;
+	border-left: 1px solid black;		
+}
+#mainNav > #subNav > #mainNavMenuCont > #mainNavMenuUl > li:hover > a{
+	font-weight:bold;
+}
+
+/*------------------------------------------------@MEDIA--------------------------------------------------------------------------*/
+
+@media screen and (max-width:850px) and (min-width:1px){
+	/*-----------------------------------NAV SECTION----------------------------------------*/
+	#mainNav{
+		display:none;		
+	}	
+}

@@ -40,11 +40,11 @@ public class HomeController {
 	private String country,district, city;
 	
 	/*--------------------------------------------DEFAULT FUNCTION TO RETURN HOME PAGE------------------------------------*/
-	@RequestMapping(value="", method=RequestMethod.GET)	
+	@RequestMapping(value={"/home"}, method=RequestMethod.GET)	
 	public String getHomePage(Model model){		
 		
 		@SuppressWarnings("rawtypes")
-		List<LinkedHashMap> weatherDataMapList = getWeatherDataFromDefCity("Sweden","Västra_Götaland","Vänersborg");
+		List<LinkedHashMap> weatherDataMapList = getWeatherDataFromDefCity("Sweden","Västra_Götaland","Trollhättan");
 		System.out.println("Size of WeatherData: " + weatherDataMapList.size());		
 		System.out.println(weatherDataMapList);
 		
@@ -75,7 +75,7 @@ public class HomeController {
 		System.out.println(myWeatherDataCollection.getSizeOfWeatherArray());
 		
 		//Set active page for css
-		navSelPage.setSelectedPage("Home");	
+		navSelPage.setSelectedPage("home");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
 		return "home";			
@@ -130,7 +130,7 @@ public class HomeController {
 		System.out.println("Weatherdatacollection is set! Size is: ");
 		System.out.println(myWeatherDataCollection.getSizeOfWeatherArray());		
 		
-		navSelPage.setSelectedPage("Home");	
+		navSelPage.setSelectedPage("home");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
 		return "home";
@@ -150,12 +150,12 @@ public class HomeController {
 		System.out.println("VALIDATING WEATHERLOCSHORT WORKED");
 		System.out.println("CITY is: " + weatherLocShort.getCityShort());
 		
-		if(weatherLocShort.getCityShort().equals("Trollhättan")){
+		if(weatherLocShort.getCityShort().equals("Trollhattan")){
 			city="Trollhättan";
 			district="Västra_Götaland";
 			country="Sweden";
 		}
-		else if(weatherLocShort.getCityShort().equals("Göteborg")){
+		else if(weatherLocShort.getCityShort().equals("Goteborg")){
 			city="Gothenburg";
 			district="Västra_Götaland";
 			country="Sweden";
@@ -165,7 +165,7 @@ public class HomeController {
 			district="Stockholm";
 			country="Sweden";
 		}
-		else if(weatherLocShort.getCityShort().equals("Umeå")){
+		else if(weatherLocShort.getCityShort().equals("Umea")){
 			city="Umeå";
 			district="Västerbotten";
 			country="Sweden";
@@ -222,11 +222,8 @@ public class HomeController {
 		System.out.println("Weatherdatacollection is set! Size is: ");
 		System.out.println(myWeatherDataCollection.getSizeOfWeatherArray());
 		
-		navSelPage.setSelectedPage("Home");
-		System.out.println(navSelPage.getSelectedPage());
-		
 		//Set active page for css
-		navSelPage.setSelectedPage("Home");	
+		navSelPage.setSelectedPage("home");	
 		System.out.println(navSelPage.getSelectedPage());
 		model.addAttribute("navSelPage",navSelPage);
 		return "home";
@@ -235,12 +232,13 @@ public class HomeController {
 	
 	
 	/*--------------------------------------------FUNCTION TO HANDLE LOGIN PAGE-----------------------------------------------*/
-	@RequestMapping(value="/login", method=RequestMethod.GET)	
-	public String getLoginPage(){		
+	@RequestMapping(value={ "/login", ""}, method=RequestMethod.GET)	
+	public String getLoginPage(Model model){		
+		navSelPage.setSelectedPage("login");	
+		System.out.println(navSelPage.getSelectedPage());
+		model.addAttribute("navSelPage",navSelPage);
 		return "login";
 	}
-	
-	
 	
 	
 	
@@ -257,10 +255,7 @@ public class HomeController {
 	@ModelAttribute("weatherLocationShort")
 	private WeatherLocShort getWeatherLocShort(){
 		return new WeatherLocShort();
-	}	
-	
-	
-	
+	}
 	
 	
 	/*-------------------------------------------FUNCTIONS---------------------------------------------------------------------*/

@@ -1,0 +1,26 @@
+/*------------------------------------------------STANDARD FOR ALL PAGES-----------------------------------------------------*/
+.span{
+	width:125px;	 
+	font-weight:bold;
+	border:1px solid orange;
+	text-align:right;
+}
+.labelRight{
+	width:45%;	 
+	font-weight:bold;
+	/*border:1px solid orange;*/
+	text-align:right;
+	display:inline-block;
+}
+.labelLeft{
+	width:45%;	 
+	font-weight:normal;
+	/*border:1px solid orange;*/
+	text-align:left;
+	display:inline-block;
+}
+.button{
+	color:rgb(255,255,255);
+	background-color: rgb(58,82,242);
+	border-radius:10px;
+}

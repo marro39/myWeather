@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
-	<head>	
+	<head>		
 		<title th:text="Home">Insert title here</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta charset="UTF-8" />
-		<link rel="stylesheet" type="text/css" href="resources/css/mainWeather.css" th:href="@{resources/css/mainWeather.css}"/>						
+		<link rel="stylesheet" type="text/css" href="resources/css/mainWeather.css" th:href="@{resources/css/mainWeather.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/htmlBodyWrapper.css" th:href="@{resources/css/templates/default/htmlBodyWrapper.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/header/header.css" th:href="@{resources/css/templates/header/header.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/nav/navigation.css" th:href="@{resources/css/templates/nav/navigation.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/footer/footer.css" th:href="@{resources/css/templates/footer/footer.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/default.css" th:href="@{resources/css/templates/default/default.css}"/>						
 	</head>
 	<body>
 	<div id="wrapper">
@@ -21,12 +26,12 @@
 							<div id="selCityCont">							
 								<button id="buttonShowCityDropList" class="button" >Select city</button>							
 								<div id="selCityDropDownCont">
-									<form id ="formSelectCity" action="#" method="post" th:object="${weatherLocationShort}" th:action="@{/selected}">  <!-- th:action="#" -->											
+									<form id ="formSelectCity" action="#" method="post" th:object="${weatherLocationShort}" th:action="@{/selected}" >  <!-- th:action="#" -->											
 										<select th:field="*{cityShort}">
-											<option th:value="'Trollhättan'">Trollhättan</option>
-											<option th:value="'Göteborg'">Göteborg></option>
+											<option th:value="'Trollhattan'">Trollhättan</option>
+											<option th:value="'Goteborg'">Göteborg</option>
 											<option th:value="'Stockholm'">Stockholm</option>
-											<option th:value="'Umeå'">Umeå</option>
+											<option th:value="'Umea'">Umeå</option>
 											<option th:value="'New York'">New York</option>
 											<option th:value="'Paris'">Paris</option>
 											<option th:value="'Melbourne'">Melbourne</option>
@@ -108,25 +113,17 @@
 		<!-- <script type="text/javascript" src="resources/js/weather.js" th:src="@{resources/js/weather.js}" th:inline="text" ></script> -->		  
 		<script type="text/javascript" th:inline="javascript">
 		//<![CDATA[	
-					$(document).ready(function(){
+				$(document).ready(function(){
 					var counter=1;
 					var sizeOfArray=0;
-					var weatherCollection = /*[[${weatherData}]]*/ 'value';
+					var weatherCollection = /*[[${weatherData}]]*/ 'value';					
 					
-					var choosenPage = /*[[${navSelPage}]]*/ 'page';					
-					var page=choosenPage.selectedPage;
 					/*
 					for (var key in choosenPage) {
 						alert("Key: " + key + " Value is: " + choosenPage[key]);						  
 					}
-					*/										
-					if(page.localeCompare("Home") == 0){
-						var pageAnchor=document.getElementById("home0");
-						pageAnchor.style.backgroundColor="#FFFFFF";
-						pageAnchor.style.color="#000000";
-						pageAnchor=document.getElementById("home1");						
-						pageAnchor.style.textShadow ="3px 3px 0 #000000";						
-					}					
+					*/	
+					
 					sizeOfArray=weatherCollection.length - 1;
 					//alert("Length is: " + sizeOfArray);
 					
@@ -144,10 +141,7 @@
 						//alert("Clicked!");
 						$("#typingCityCont").slideToggle();
 					});	
-					$("#menuImg").click(function (){
-						//alert("Clicked");
-						$("#dropMenuCont").slideToggle();
-					});					
+									
 					/*------------------On click add/subtract counter and show new weatherinfo-----------------------*/					
 					$("#divPrev").click(function(){
 						//alert("Prev");
@@ -169,9 +163,8 @@
 						}	
 						$("#weatherArrController").text(counter + " of " + sizeOfArray);
 						setWeather(counter);
-					});
-					
-					/*----------------------------FUNCTIONS-----------------------------------------------------*/
+					});					
+					/*----------------------------FUNCTIONS-----------------------------------------------------*/									
 					function setWeather(number) {
 						var weatherObj=weatherCollection[number];						
 						//alert(weatherObj);
