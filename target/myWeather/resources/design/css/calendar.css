@@ -7,16 +7,131 @@
 	background-color: rgb(255,255,255);	
 	padding-bottom: 185px;   			/*ONLY FOR MAKING THE FOOTER AT BOTTOM OF PAGE AND MAKING ALL 
 											CONTENT IN BODY CONTAINER FIT IN!*/	
+	border:1px solid #000000;
 	border-bottom: 2px solid green;		
 }
 #mainContent > #subContent{
 	display:flex;
-	flex-direction:row;
-	width:65%;
-	height:100%;
+	flex-direction:column;
+	width:65%;	
 	background-color: rgb(255,255,255);
 	margin:0% auto;
 	padding:0%;
-	/*border-left:1px solid rgb(0,0,0);*/	
-	/*border-right:1px solid rgb(0,0,0);*/
+	border-left:1px solid rgb(0,0,0);
+	border-right:1px solid rgb(0,0,0);
+	border:1px solid red;
+	align-items:center;
 }
+#mainContent > #subContent > #mainCalendar{
+	display:flex;
+	flex-direction:column;
+	width:80%;
+	border:1px solid green;
+	margin:0%;
+	padding:0%;	
+	align-items:center;
+}
+#mainContent > #subContent > #mainCalendar > #calMenu{
+	display:flex;
+	flex-direction:row;
+	margin:0%;
+	padding:0%;	
+	width:100%;	
+	border: 1px solid orange;
+	justify-content:center;
+	align-items:center;
+}
+#mainContent > #subContent > #mainCalendar > #calMenu > #calMenuPrevMonth,
+#mainContent > #subContent > #mainCalendar > #calMenu > #calMenuNextMonth{
+	height:30px;
+	width: 7%;
+	padding-left:2%;
+	padding-right:2%;
+	margin-left:5%;
+	margin-right:5%;	
+	border:1px solid red;
+}
+#mainContent > #subContent > #mainCalendar > #calMenu > #calMenuYearAndMonth{
+	display:flex;
+	flex-direction:row;
+	justify-content:center;
+	padding:0%;
+	margin-left:5%;
+	margin-right:5%;
+	padding-left:3%;
+	padding-right:3%;
+	border:1px solid red;
+	background-color: rgb(58,82,242);
+	color:rgb(255,255,255);
+	box-shadow: 5px 5px 5px rgb(0,0,0);
+	text-shadow: 2px 2px rgb(0,0,0);	
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont{
+	display:flex;
+	flex-direction:column;
+	margin:0%;
+	padding:0%;
+	/*height:20px;*/
+	/*border: 1px solid black;*/
+	width:100%;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont{
+	display:none;
+	flex-direction:column;
+	margin:0%;
+	padding:0%;
+	/*height:20px;*/
+	border: 1px solid green;
+	width:100%;
+	height:300px;
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivWide{
+	display:flex;
+	flex-direction:row;
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivSmall{
+	display:none;
+	flex-direction:row;
+}
+.weekDiv{	
+	display:flex;
+	flex-direction:row;
+	margin:0%;
+	padding:0%;
+	/*border:1px solid red;*/
+	width:100%;
+	/*height:50px;*/
+}
+.dayDiv{
+	display:flex;
+	flex-direction:column;
+	width:13%;
+	border:1px solid rgb(0,0,0);
+	box-shadow: 5px 5px 8px rgb(0,0,0);
+	height:50px;
+	margin:0%;
+	margin-left:0.5%;
+	margin-right:0.5%;
+	margin-bottom: 10px;
+	padding:0%;
+	align-items:center;
+	justify-content:center;
+}
+.bold{
+	font-weight:bold;
+}
+@media screen and (max-width: 850px) and (min-width: 1px){
+	#mainContent > #subContent{
+		width:100%;
+	}
+	#mainContent > #subContent > #mainCalendar{
+		width:100%;
+	}
+	#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivWide{
+		display:none;
+	}
+	#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivSmall{
+		display:flex;
+	}
+}
+

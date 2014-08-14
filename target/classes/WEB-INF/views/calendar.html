@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>	
+		<title th:text="Login">Insert title here</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta charset="UTF-8" />		
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/htmlBodyWrapper.css" th:href="@{resources/css/templates/default/htmlBodyWrapper.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/header/header.css" th:href="@{resources/css/templates/header/header.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/nav/navigation.css" th:href="@{resources/css/templates/nav/navigation.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/calendar.css" th:href="@{resources/css/calendar.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/footer/footer.css" th:href="@{resources/css/templates/footer/footer.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/default.css" th:href="@{resources/css/templates/default/default.css}"/>								
+	</head>
+	<body>
+		<div id="wrapper">
+			<header th:replace="/templates/header/header :: mainHeader"></header>
+			<nav th:replace="/templates/nav/nav :: mainNav"></nav>	
+			<div id="mainContent">
+				<div id="subContent">
+					<section id="mainCalendar">
+						<h1>Calendar</h1>
+						<article id="calMenu" >
+							<img id="calMenuPrevMonth" alt="&lt;" src="/resources/design/img/prev.png" th:src="@{resources/img/prev.png}" />
+							<h2 id="calMenuYearAndMonth">2001 : Jan</h2>																			
+							<img id="calMenuNextMonth" alt="&gt;" src="/resources/design/img/next.png" th:src="@{resources/img/next.png}"/>							
+						</article>
+						<article id="calDaysCont"></article>
+						<article id="calDayCont"></article>						
+					</section>
+				</div>
+			</div>
+			<footer th:replace="/templates/footer/footer :: mainFooter"></footer>
+			<script type="text/javascript" src="resources/js/jQuery/jquery-2.1.1.js"></script>
+			<script type="text/javascript" th:inline="javascript">
+				//<![CDATA[					
+					$(document).ready(function(){						
+/*--------------------------------------Functionality to populate the calendar-----------------------------------------*/											
+						var dayList = /*[[${calDaysColl}]]*/ 'daysObj';
+						//var dayList = dayListFatherObj.calDaysCollList;
+						var calDaysContainer = document.getElementById("calDaysCont");
+						//alert("Working0");
+						//alert("Daylist length is: " + dayList.length);
+						
+						//Set actual month in calendar 
+						
+						var year=/*[[${year}]]*/ 'year';
+						var intMonth=/*[[${intMonth}]]*/ '1';
+						var month=/*[[${month}]]*/ 'month';
+						var day=/*[[${day}]]*/ 'day';
+						
+						//Holds a full month data(Year, month and days...)
+						var monthCalCont;
+						//To know if a page has made an ajax call or with data of a full month, clicked on prev/next month image
+						var boolAjaxMonthLoaded;
+						/*
+						alert("Year: " + year);
+						alert("Month: " + month);
+						alert("Month: " + intMonth);
+						alert("Day: " + day);
+						*/
+						
+						var monthCounter=0;	
+						
+						printOutYearAndMonth(year,month);
+						printOutWeekDays();	
+						printOutWeekDaysShort();
+						
+						for(var i=0; i<dayList.length;i++){													
+							if((i % 7) == 0 ){								
+								var weekDiv = document.createElement("div");								
+								weekDiv.className="weekDiv";								
+								calDaysContainer.appendChild(weekDiv);
+								//alert("Working2: " + i);									
+							}									
+							var dayDiv = document.createElement("div");
+							//Clicked day is only for jQuery to catch clicked day div
+							dayDiv.className="dayDiv clickedDay";
+							weekDiv.appendChild(dayDiv);
+							
+							var dayDateDiv= document.createElement("div");
+							dayDateDiv.innerHTML=dayList[i].dayOfMonth;
+							dayDateDiv.className="dayDateDiv";
+							dayDiv.appendChild(dayDateDiv);							
+						}
+						boolAjaxMonthLoaded=false;
+						
+/*-----------------------------------Functionality for adding or subtracting month in calendar------------------------*/						
+						$("#calMenuPrevMonth").click(function(){							
+							monthCounter-=1;
+							//alert("Counter is: " + monthCounter);
+							$.ajax({
+								type: 'GET',		
+								url: 'calendar/addSubMonth',
+								data: {'month': monthCounter},
+								dataType: 'json',		
+								success: function(data){
+									boolAjaxMonthLoaded=true;
+									monthCalCont=data;										
+									populateMonthCalendar();									
+								}		
+							}).error(function(data){																		
+								alert('Fail');											
+							});	
+						});
+						$("#calMenuNextMonth").click(function(){
+							monthCounter+=1;
+							//alert("Counter is: " + monthCounter);
+							$.ajax({
+								type: 'GET',		
+								url: 'calendar/addSubMonth',
+								data: {'month': monthCounter},
+								dataType: 'json',		
+								success: function(data){
+									boolAjaxMonthLoaded=true;
+									monthCalCont=data;										
+									populateMonthCalendar();									
+								}		
+							}).error(function(data){																		
+								alert('Fail');											
+							});	
+						});
+						$(document).on("click",".clickedDay", function(){
+							//alert("Click");
+							var day=$(this).find(".dayDateDiv").text();
+							var year1, month1;							
+							if(boolAjaxMonthLoaded==false){
+								year1=year;
+								month1=intMonth;
+								alert(boolAjaxMonthLoaded);
+							}
+							else{
+								year1=monthCalCont.year;
+								month1=monthCalCont.month;
+								alert(boolAjaxMonthLoaded);
+							}							
+							//alert("Year: " + year1);
+							//alert("Month: " + month1);
+							//alert("Day: " + day);
+								$("#calMenu").css("display", "none");
+								$("#calDaysCont").css("display", "none");
+								$("#calDayCont").css("display", "flex");
+								alert("Slideup/Slidedown");								
+							
+						});						
+/*------------------------------------Clear all childnodes in calDaysCont, which contains all month data--------------*/
+						function clearChilds(fathernode){							
+							var fathernodeOne=document.getElementById(fathernode);
+							while(fathernodeOne.firstChild){
+								fathernodeOne.removeChild(fathernodeOne.firstChild);
+							}							
+						}
+/*------------------------------------Produces a complete new month---------------------------------------------------*/
+						function populateMonthCalendar(){							
+							//alert(monthCalCont);																
+							//alert(JSON.stringify(monthCalCont));
+							//alert("In populateMonthCalendar function!");
+							
+							clearChilds("calDaysCont");
+							printOutYearAndMonth(monthCalCont.year,monthCalCont.monthInText);
+							printOutWeekDays();
+							printOutWeekDaysShort();
+							printOutEachDayDataColl();
+						}
+/*------------------------------------Creates a div containing events for a full day-----------------------------------*/
+						function printOutEachDayDataColl(){
+							for(var i=0; i<monthCalCont.calDaysData.length;i++){													
+								if((i % 7) == 0 ){								
+									var weekDiv = document.createElement("div");								
+									weekDiv.className="weekDiv";								
+									calDaysContainer.appendChild(weekDiv);
+									//alert("Working2: " + i);									
+								}									
+								var dayDiv = document.createElement("div");
+								//Clicked day is only for jQuery to catch clicked day div
+								dayDiv.className="dayDiv clickedDay";
+								weekDiv.appendChild(dayDiv);
+								
+								var dayDateDiv= document.createElement("div");
+								dayDateDiv.innerHTML=monthCalCont.calDaysData[i].dayOfMonth;
+								dayDateDiv.className="dayDateDiv";
+								dayDiv.appendChild(dayDateDiv);									
+							}
+						}
+/*-----------------------------------Print out a set year and month in a div---------------------------------------------*/
+						function printOutYearAndMonth(year, month){
+							var yearAndMonthHeader=document.getElementById("calMenuYearAndMonth").innerHTML=year + " : " + month;
+						}
+/*-----------------------------------Prints out all the days in a week with full dayname---------------------------------*/
+						function printOutWeekDays(){
+							var weekDiv = document.createElement("div");								
+							weekDiv.className="weekDiv";
+							weekDiv.id="weekDivWide";
+							calDaysContainer.appendChild(weekDiv);						
+							var weekdayNameArr=["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+							for (var i=0;i<weekdayNameArr.length;i++){
+								var dayDiv = document.createElement("div");
+								dayDiv.className="dayDiv bold";							
+								weekDiv.appendChild(dayDiv);
+								var dayNameDiv= document.createElement("div");
+								dayNameDiv.innerHTML=weekdayNameArr[i];						
+								dayDiv.appendChild(dayNameDiv);
+							}
+						}
+						/*-----------------------------------Prints out all the days in a week with short dayname---------*/
+						function printOutWeekDaysShort(){
+							var weekDiv = document.createElement("div");								
+							weekDiv.className="weekDiv";
+							weekDiv.id="weekDivSmall";
+							calDaysContainer.appendChild(weekDiv);						
+							var weekdayNameArr=["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+							for (var i=0;i<weekdayNameArr.length;i++){
+								var dayDiv = document.createElement("div");
+								dayDiv.className="dayDiv bold";							
+								weekDiv.appendChild(dayDiv);
+								var dayNameDiv= document.createElement("div");
+								dayNameDiv.innerHTML=weekdayNameArr[i];						
+								dayDiv.appendChild(dayNameDiv);
+							}
+						}
+					});					
+				//]]>
+		</script>  				           
+		</div>
+	</body>
+</html>
