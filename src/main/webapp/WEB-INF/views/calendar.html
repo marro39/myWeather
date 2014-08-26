@@ -20,12 +20,14 @@
 					<section id="mainCalendar">
 						<h1>Calendar</h1>
 						<article id="calMenu" >
-							<img id="calMenuPrevMonth" alt="&lt;" src="/resources/design/img/prev.png" th:src="@{resources/img/prev.png}" />
+							<img id="calMenuPrevMonth" alt="&lt;" src="resources/img/prev.png" th:src="@{resources/img/prev.png}" />
 							<h2 id="calMenuYearAndMonth">2001 : Jan</h2>																			
-							<img id="calMenuNextMonth" alt="&gt;" src="/resources/design/img/next.png" th:src="@{resources/img/next.png}"/>							
+							<img id="calMenuNextMonth" alt="&gt;" src="resources/img/next.png" th:src="@{resources/img/next.png}" />							
 						</article>
 						<article id="calDaysCont"></article>
-						<article id="calDayCont"></article>						
+						<article id="calDayCont">
+							<div id=""></div>
+						</article>						
 					</section>
 				</div>
 			</div>
@@ -80,7 +82,26 @@
 							var dayDateDiv= document.createElement("div");
 							dayDateDiv.innerHTML=dayList[i].dayOfMonth;
 							dayDateDiv.className="dayDateDiv";
-							dayDiv.appendChild(dayDateDiv);							
+							dayDiv.appendChild(dayDateDiv);	
+							
+							var dayEventExistsCont = document.createElement("div");
+							dayEventExistsCont.className="dayEventExistsCont";
+							dayDiv.appendChild(dayEventExistsCont);
+							var dayEventExistsImg = document.createElement("IMG");
+							dayEventExistsImg.className="dayEventExistsImg";
+							dayEventExistsImg.src="resources/img/activityExists.jpg";
+							dayEventExistsCont.appendChild(dayEventExistsImg);
+							
+							var dayAppendEventCont = document.createElement("div");
+							dayAppendEventCont.className="dayAppendEventCont";
+							dayDiv.appendChild(dayAppendEventCont);							
+							var addDayEventImg = document.createElement("IMG");
+							addDayEventImg.src="resources/img/addActivity.png";							
+							addDayEventImg.className="addDayEventImg";
+							dayAppendEventCont.appendChild(addDayEventImg);
+							//alert("Working");
+							//alert(addDayEventImg.src);
+							
 						}
 						boolAjaxMonthLoaded=false;
 						
@@ -119,9 +140,12 @@
 								alert('Fail');											
 							});	
 						});
-						$(document).on("click",".clickedDay", function(){
+/*------------------------------Functionality when click on a specific day------------------------------------------*/
+						$(document).on("click",".dayAppendEventCont", function(){
 							//alert("Click");
-							var day=$(this).find(".dayDateDiv").text();
+							var day=$(this).parent().find(".dayDateDiv").text();
+							alert(day);
+							//var day=$(this).find(".dayDateDiv").text();
 							var year1, month1;							
 							if(boolAjaxMonthLoaded==false){
 								year1=year;
@@ -132,15 +156,14 @@
 								year1=monthCalCont.year;
 								month1=monthCalCont.month;
 								alert(boolAjaxMonthLoaded);
-							}							
+							}
 							//alert("Year: " + year1);
 							//alert("Month: " + month1);
 							//alert("Day: " + day);
 								$("#calMenu").css("display", "none");
 								$("#calDaysCont").css("display", "none");
 								$("#calDayCont").css("display", "flex");
-								alert("Slideup/Slidedown");								
-							
+								alert("Slideup/Slidedown");									
 						});						
 /*------------------------------------Clear all childnodes in calDaysCont, which contains all month data--------------*/
 						function clearChilds(fathernode){							
@@ -178,7 +201,25 @@
 								var dayDateDiv= document.createElement("div");
 								dayDateDiv.innerHTML=monthCalCont.calDaysData[i].dayOfMonth;
 								dayDateDiv.className="dayDateDiv";
-								dayDiv.appendChild(dayDateDiv);									
+								dayDiv.appendChild(dayDateDiv);	
+								
+								var dayEventExistsCont = document.createElement("div");
+								dayEventExistsCont.className="dayEventExistsCont";
+								dayDiv.appendChild(dayEventExistsCont);
+								var dayEventExistsImg = document.createElement("IMG");
+								dayEventExistsImg.className="dayEventExistsImg";
+								dayEventExistsImg.src="resources/img/activityExists.jpg";
+								dayEventExistsCont.appendChild(dayEventExistsImg);
+								
+								var dayAppendEventCont = document.createElement("div");
+								dayAppendEventCont.className="dayAppendEventCont";
+								dayDiv.appendChild(dayAppendEventCont);							
+								var addDayEventImg = document.createElement("IMG");
+								addDayEventImg.src="resources/img/addActivity.png";							
+								addDayEventImg.className="addDayEventImg";
+								dayAppendEventCont.appendChild(addDayEventImg);
+								//alert("Working");
+								//alert(addDayEventImg.src);
 							}
 						}
 /*-----------------------------------Print out a set year and month in a div---------------------------------------------*/

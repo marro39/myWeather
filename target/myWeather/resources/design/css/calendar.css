@@ -93,6 +93,37 @@
 	display:none;
 	flex-direction:row;
 }
+#mainContent > #subContent > #mainCalendar > #calDaysCont > .weekDiv > .dayDiv > .dayDateDiv{
+	display:flex;
+	flex-direction: column;
+	/*border:1px solid black;*/
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont > .weekDiv > .dayDiv > .dayEventExistsCont{
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	justify-content:center;
+	width:40%;
+	height:20px;
+	/*border:1px solid black;*/
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont > .weekDiv > .dayDiv > .dayEventExistsCont > .dayEventExistsImg{
+	width:100%;
+	height:100%;
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont > .weekDiv > .dayDiv > .dayAppendEventCont{
+	display:flex;
+	flex-direction:column;
+	width:70%;
+	height:40px;
+	/*border:1px solid black;*/
+	justify-content:center;
+	align-items:center;
+}
+#mainContent > #subContent > #mainCalendar > #calDaysCont > .weekDiv > .dayDiv > .dayAppendEventCont > .addDayEventImg{
+	width:100%;
+	height:100%;
+}
 .weekDiv{	
 	display:flex;
 	flex-direction:row;
@@ -108,7 +139,7 @@
 	width:13%;
 	border:1px solid rgb(0,0,0);
 	box-shadow: 5px 5px 8px rgb(0,0,0);
-	height:50px;
+	/*height:50px;*/
 	margin:0%;
 	margin-left:0.5%;
 	margin-right:0.5%;
