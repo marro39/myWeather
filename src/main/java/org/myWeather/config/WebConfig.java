@@ -11,6 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -34,6 +35,8 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -41,8 +44,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 @EnableWebMvc
 //Scans the classpath for annotated components that will be auto-registered as Spring beans.
 //For example @Controller,@Service,@Component
-@ComponentScan(basePackages={"org.myWeather.web.controller","org.myWeather.web.domain"})
+@ComponentScan(basePackages={"org.myWeather.web.controller","org.myWeather.web.domain", "org.myWeather.persistence.DaoImpl"})
 //This is the applicationcontext containing beans(dep.inj), annotations, aspects, security, database and other configurations
+@Import(JPAConfiguration.class)
 public class WebConfig extends WebMvcConfigurerAdapter{
 	
 	@Override

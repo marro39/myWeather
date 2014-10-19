@@ -9,7 +9,8 @@
 		<link rel="stylesheet" type="text/css" href="resources/css/templates/nav/navigation.css" th:href="@{resources/css/templates/nav/navigation.css}"/>
 		<link rel="stylesheet" type="text/css" href="resources/css/calendar.css" th:href="@{resources/css/calendar.css}"/>
 		<link rel="stylesheet" type="text/css" href="resources/css/templates/footer/footer.css" th:href="@{resources/css/templates/footer/footer.css}"/>
-		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/default.css" th:href="@{resources/css/templates/default/default.css}"/>								
+		<link rel="stylesheet" type="text/css" href="resources/css/templates/default/default.css" th:href="@{resources/css/templates/default/default.css}"/>
+		<link rel="stylesheet" type="text/css" href="resources/css/dateAndTime/datetimepicker.css" th:href="@{resources/css/dateAndTime/datetimepicker.css}"/>										
 	</head>
 	<body>
 		<div id="wrapper">
@@ -26,13 +27,51 @@
 						</article>
 						<article id="calDaysCont"></article>
 						<article id="calDayCont">
-							<div id=""></div>
+							<h3>Add event</h3>
+							<form id="eventDataForm" action="#" method="post" th:action="@{/calendarAddDayEvent}" th:object="${calDayColl}">
+								<div id="dateTimeFromCont">
+									<div id="dateFromCont">
+										<label class="labelRight">Date from:&nbsp;</label>
+										<input type="text" id="dateFrom" maxlength="10" value="Please enter date!" th:field="*{ymdFrom}"/>
+									</div>
+									<div id="timeFromCont">
+										<label class="labelRight">Time from:&nbsp;</label>
+										<input type="text" id="timeFrom" maxlength="5" value="Please enter time!" th:field="*{hoursMinFrom}"/>
+									</div>								
+								</div>
+								<div id="dateTimeToCont">
+									<div id="dateToCont">
+										<label class="labelRight">Date to:&nbsp;</label>
+										<input type="text" id="dateTo" maxlength="10" value="Please enter date!" th:field="*{ymdTo}"/>
+									</div>
+									<div id="timeToCont">
+										<label class="labelRight">Time to:&nbsp;</label>
+										<input type="text" id="timeTo" maxlength="5" value="Please enter time!" th:field="*{hoursMinTo}"/>
+									</div>	
+								</div>
+								<div id="titleCont">
+									<label class="labelRight">Title:&nbsp;</label>
+									<input id="eventTitle" type="text" maxlength="20" value="Enter title" th:field="*{title}" />
+								</div>
+								<div id="locCont">
+									<label class="labelRight">Location:&nbsp;</label>
+									<input id="eventLoc" type="text" maxlength="30" value="Enter location" th:field="*{location}" />
+								</div>
+								<div id="descCont">
+									<label class="labelRight">Description:&nbsp;</label>
+									<input id="eventDesc" type="text" maxlength="200" value="Description" th:field="*{description}" />
+								</div>
+								<div id="eventSubmCont">
+									<input type="submit" class="button" id="addEventButton" value="Submit" />
+								</div>
+							</form>
 						</article>						
 					</section>
 				</div>
 			</div>
 			<footer th:replace="/templates/footer/footer :: mainFooter"></footer>
 			<script type="text/javascript" src="resources/js/jQuery/jquery-2.1.1.js"></script>
+			<script type="text/javascript" src="resources/js/dateAndTime/datetimepicker.js"></script>
 			<script type="text/javascript" th:inline="javascript">
 				//<![CDATA[					
 					$(document).ready(function(){						
@@ -83,6 +122,15 @@
 							dayDateDiv.innerHTML=dayList[i].dayOfMonth;
 							dayDateDiv.className="dayDateDiv";
 							dayDiv.appendChild(dayDateDiv);	
+							alert("Number of events is: " + dayList[i].numberOfEvents);
+							
+							var dayDateFull = document.createElement("div");
+							var dateFull = new Date(dayList[i].year, dayList[i].month, dayList[i].dayOfMonth);
+							alert(dateFull)
+							dayDateFull.innerHTML=dateFull;
+							dayDateFull.className="dayDateDiv fullDate";
+							dayDateFull.style.display="none";
+							dayDiv.appendChild(dayDateFull);							
 							
 							var dayEventExistsCont = document.createElement("div");
 							dayEventExistsCont.className="dayEventExistsCont";
@@ -143,28 +191,72 @@
 /*------------------------------Functionality when click on a specific day------------------------------------------*/
 						$(document).on("click",".dayAppendEventCont", function(){
 							//alert("Click");
-							var day=$(this).parent().find(".dayDateDiv").text();
-							alert(day);
+							//var day=$(this).parent().find(".dayDateDiv").text();
+							var day1=$(this).parent().find(".fullDate").text();
+							
+							//alert(day);
 							//var day=$(this).find(".dayDateDiv").text();
+							
+							/*
 							var year1, month1;							
 							if(boolAjaxMonthLoaded==false){
 								year1=year;
 								month1=intMonth;
-								alert(boolAjaxMonthLoaded);
+								//alert(boolAjaxMonthLoaded);
 							}
 							else{
 								year1=monthCalCont.year;
 								month1=monthCalCont.month;
-								alert(boolAjaxMonthLoaded);
+								//alert(boolAjaxMonthLoaded);
 							}
+							*/
+							
+							//var actualDate=new Date(year1, month1, day);
+							var actualDate=new Date(day1);							
+							
+							if(actualDate < new Date()){
+								actualDate=new Date();
+								alert("Date is lesser than today!");
+							}							
+							
+							alert("Date is: " + actualDate);
 							//alert("Year: " + year1);
 							//alert("Month: " + month1);
 							//alert("Day: " + day);
-								$("#calMenu").css("display", "none");
-								$("#calDaysCont").css("display", "none");
-								$("#calDayCont").css("display", "flex");
-								alert("Slideup/Slidedown");									
-						});						
+							$("#calMenu").css("display", "none");
+							$("#calDaysCont").css("display", "none");
+							$("#calDayCont").css("display", "flex");
+							//alert("Slideup/Slidedown");
+							
+							/* ---------------------Functionality to set date/time on selected day*/						
+							var datefrom = $('#dateFrom').datetimepicker({
+								//value:year1 + "-" + month1 + "-" + day,
+								value:actualDate.getFullYear() + "-" + (actualDate.getMonth() + 1) + "-" + actualDate.getDate(),								
+								timepicker:false,
+								format:'Y-m-d',
+								lang:'en',
+								minDate:0
+							});
+							var timefrom = $('#timeFrom').datetimepicker({
+								datepicker:false,
+								format:'H:i',
+								lang:'en',
+								minTime:'00:00'
+							});
+							var dateTo = $('#dateTo').datetimepicker({
+								timepicker:false,
+								format:'Y-m-d',
+								lang:'en',
+								minDate:0
+							});
+							var timeTo = $('#timeTo').datetimepicker({
+								datepicker:false,
+								format:'H:i',
+								lang:'en',
+								minTime:'00:00'
+							});							
+						});	
+
 /*------------------------------------Clear all childnodes in calDaysCont, which contains all month data--------------*/
 						function clearChilds(fathernode){							
 							var fathernodeOne=document.getElementById(fathernode);
@@ -196,12 +288,20 @@
 								var dayDiv = document.createElement("div");
 								//Clicked day is only for jQuery to catch clicked day div
 								dayDiv.className="dayDiv clickedDay";
-								weekDiv.appendChild(dayDiv);
+								weekDiv.appendChild(dayDiv);								
 								
 								var dayDateDiv= document.createElement("div");
 								dayDateDiv.innerHTML=monthCalCont.calDaysData[i].dayOfMonth;
 								dayDateDiv.className="dayDateDiv";
 								dayDiv.appendChild(dayDateDiv);	
+								
+								var dayDateFull = document.createElement("div");
+								var dateFull = new Date(monthCalCont.calDaysData[i].year, monthCalCont.calDaysData[i].month, monthCalCont.calDaysData[i].dayOfMonth);
+								//alert(dateFull)
+								dayDateFull.innerHTML=dateFull;
+								dayDateFull.className="dayDateDiv fullDate";
+								dayDateFull.style.display="none";
+								dayDiv.appendChild(dayDateFull);	
 								
 								var dayEventExistsCont = document.createElement("div");
 								dayEventExistsCont.className="dayEventExistsCont";

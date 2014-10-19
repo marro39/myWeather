@@ -1,14 +1,24 @@
 package org.myWeather.web.controller;
 
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import javax.annotation.Resource;
+import javax.validation.Valid;
+
+import org.myWeather.persistence.DaoImpl.DayEventDAOImp;
+import org.myWeather.persistence.dao.DayEventDAO;
+import org.myWeather.persistence.domain.DayEvent;
+import org.myWeather.persistence.repository.DayEventRepository;
 import org.myWeather.web.domain.CalendarDayColl;
 import org.myWeather.web.domain.CalendarDaysColl;
 import org.myWeather.web.domain.CalendarDaysColl2;
@@ -18,6 +28,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,10 +44,15 @@ public class CalendarController {
 	@Autowired
 	private CalendarDaysColl calDaysColl;
 	
+	@Autowired	
+	private DayEventDAOImp dayEventDAOImp;
+
+	
 	//Spring security authentication
 	private Authentication auth;
 	
 	/*---------------------------------------------Controller functions------------------------------------------------*/
+	/*---------------------------------------------Default calendar page-----------------------------------------------*/
 	@RequestMapping(value={"/calendar"}, method=RequestMethod.GET)
 	public String getDefaultCalendar(Model model){
 		/*-----------------------------------CSS and Security configurations----------------*/
@@ -52,15 +68,13 @@ public class CalendarController {
 		model.addAttribute("year", calDaysColl.getYear());
 		model.addAttribute("month", calDaysColl.getMonthForInt(calDaysColl.getMonth()));
 		model.addAttribute("intMonth", calDaysColl.getMonth());
-		model.addAttribute("day", calDaysColl.getDay());
-		
+		model.addAttribute("day", calDaysColl.getDay());		
 		
 		model.addAttribute("calDaysColl", calDaysColl.getCalDaysCollList());
 		
 		return "calendar";
-	}
-	
-	
+	}	
+	/*------------------------------Add or sub month and populate calender again---------------------------------------*/
 	@RequestMapping(value={"/calendar/addSubMonth"}, method=RequestMethod.GET)
 	public @ResponseBody CalendarDaysColl2 calendarAddSubOneMonth(@RequestParam("month") int month){		
 		System.out.println("In function calendarAddOneMonth! Month is: " + month);
@@ -77,6 +91,76 @@ public class CalendarController {
 		
 		return calDaysColl2;
 	}	
+	@RequestMapping(value={"/calendarAddDayEvent"}, method=RequestMethod.POST)
+	public String addDayEvent(@Valid @ModelAttribute("calDayColl") CalendarDayColl calDayColl1, Model model, BindingResult bindingResult){
+		
+		if(bindingResult.hasErrors()){
+			System.out.println("Error submitting day event data!");
+			return "calendar";
+		}	
+		
+		DayEvent dayEvent=new DayEvent();
+		dayEvent.setUserId(1);
+		dayEvent.setLocation(calDayColl1.getLocation());
+		dayEvent.setTitle(calDayColl1.getTitle());
+		if(!calDayColl1.getDescription().isEmpty()){
+			dayEvent.setDescription(calDayColl1.getDescription());
+		}
+		
+		System.out.println("\n---------------------------------------------------------------");
+		System.out.println("Validating day event data worked!");
+		System.out.println("Date from: " + calDayColl1.getYmdFrom());
+		System.out.println("Time from: " + calDayColl1.getHoursMinFrom());
+		System.out.println("Date to: " + calDayColl1.getYmdTo());
+		System.out.println("Time to: " + calDayColl1.getHoursMinTo());
+		System.out.println("Description: " + calDayColl1.getDescription());
+		System.out.println("Title: " + calDayColl1.getTitle());
+		System.out.println("Location: " + calDayColl1.getLocation());
+		
+		try {
+			Date dateFrom=new SimpleDateFormat("yyyy-MM-d-k:m").parse(calDayColl1.getYmdFrom().toString() + "-" + calDayColl1.getHoursMinFrom().toLowerCase());
+			TimeZone timeZone = TimeZone.getTimeZone("Europe/Stockholm");
+			Calendar calendar=Calendar.getInstance(timeZone);
+			calendar.setTime(dateFrom);
+			
+			dayEvent.setDateFrom(calendar.getTime());
+			
+			System.out.println(calendar.get(Calendar.YEAR));
+			System.out.println(calendar.get(Calendar.MONTH));
+			System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
+			System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
+			System.out.println(calendar.get(Calendar.MINUTE));
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error creating date from");
+		}
+		
+		try {
+			Date dateTo=new SimpleDateFormat("yyyy-MM-d-k:m").parse(calDayColl1.getYmdTo().toString() + "-" + calDayColl1.getHoursMinTo().toLowerCase());
+			TimeZone timeZone1 = TimeZone.getTimeZone("Europe/Stockholm");
+			Calendar calendar1=Calendar.getInstance(timeZone1);
+			calendar1.setTime(dateTo);
+			
+			dayEvent.setDateTo(calendar1.getTime());
+			
+			System.out.println(calendar1.get(Calendar.YEAR));
+			System.out.println(calendar1.get(Calendar.MONTH));
+			System.out.println(calendar1.get(Calendar.DAY_OF_MONTH));
+			System.out.println(calendar1.get(Calendar.HOUR_OF_DAY));
+			System.out.println(calendar1.get(Calendar.MINUTE));
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error creating date to");
+		}
+		
+		dayEventDAOImp.createDayEvent(dayEvent);
+		
+		return getDefaultCalendar(model);
+	}
 	
 	/*----------------------------------------------Regular functions--------------------------------------------------*/
 	public void populateMonth(int month){
@@ -142,14 +226,59 @@ public class CalendarController {
 		//Clear list before populating!
 		calDaysColl.getCalDaysCollList().clear();
 		
+		
 		for(int i=0;i<42;i++){			
 			//Create days
 			CalendarDayColl calDayColl = new CalendarDayColl(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			
+			//Date from = new Date(calDayColl.getYear(),calDayColl.getMonth(),calDayColl.getDayOfMonth());
+			//Date to = new Date(calDayColl.getYear(),calDayColl.getMonth(),calDayColl.getDayOfMonth());
+			TimeZone timeZone1 = TimeZone.getTimeZone("Europe/Stockholm");
+			Calendar calendar1=Calendar.getInstance(timeZone1);
+			calendar1.set(calDayColl.getYear(), calDayColl.getMonth(), calDayColl.getDayOfMonth());
+			calendar1.set(Calendar.HOUR_OF_DAY, 0);
+			calendar1.set(Calendar.MINUTE, 0);
+			calendar1.set(Calendar.SECOND, 0);
+			//calendar1.set(Calendar.DAY_OF_MONTH, 0);
+			
+			Calendar calendar2=Calendar.getInstance(timeZone1);
+			calendar2.set(calDayColl.getYear(), calDayColl.getMonth(), calDayColl.getDayOfMonth());
+			calendar2.set(Calendar.HOUR_OF_DAY, 23);
+			calendar2.set(Calendar.MINUTE, 59);
+			calendar2.set(Calendar.SECOND, 59);
+			//calendar2.set(Calendar.DAY_OF_MONTH, +2);
+			
+			//int count= dayEventDAOImp.getEventsByDate(new Date(calDayColl.getYear(),calDayColl.getMonth(),calDayColl.getDayOfMonth()));
+			//int count= dayEventDAOImp.getEventsByDate(calendar1.getTime(),calendar2.getTime());
+			int count;
+			
+			
+			//Date from = new SimpleDateFormat("dd-mmm-yy").parse(calendar1.getTime().toString());
+			//Date to = new SimpleDateFormat("dd-mmm-yy").parse(calendar2.getTime().toString());
+			count = dayEventDAOImp.getEventsByDate(calendar1.getTime(),calendar2.getTime());
+			calDayColl.setNumberOfEvents(count);
+			
+			
+				//count = dayEventDAOImp.getEventsByDate(new SimpleDateFormat("dd/mmm/yy").parse(calendar1.getTime().toString()),new SimpleDateFormat("dd/mmm/yy").parse(calendar2.getTime().toString()));
+			
+			
+			
+			
+			
+			
+			
+			//List<DayEvent> listOne=dayEventDAOImp.getEventsByDate();
+			//int count= dayEventDAOImp.getEventsByDate("Sikhall");
+			//int count=listOne.size();
+			//System.out.println("Amout events in day is: " + count);
+			
+			//calDayColl.setNumberOfEvents(count);
+			
 			//Add day to list
 			calDaysColl.getCalDaysCollList().add(calDayColl);
-			System.out.println("-------------------------------------------------------");
-			System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
-			System.out.println("Year: " + calDayColl.getYear() + " Month: " + calDayColl.getMonth() + " Day: " + calDayColl.getDayOfMonth());
+			//System.out.println("-------------------------------------------------------");
+			//System.out.println(calendar.get(Calendar.DAY_OF_MONTH));
+			//System.out.println("Year: " + calDayColl.getYear() + " Month: " + calDayColl.getMonth() + " Day: " + calDayColl.getDayOfMonth());
 			calendar.add(Calendar.DAY_OF_MONTH, + 1);
 		}
 		System.out.println("Size of daylist: " + calDaysColl.getCalDaysCollList().size());
@@ -171,4 +300,8 @@ public class CalendarController {
 		return calDaysColl;
 	}
 	*/
+	@ModelAttribute("calDayColl")
+	public CalendarDayColl getCalDayColl(){
+		return new CalendarDayColl();
+	}
 }

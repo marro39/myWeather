@@ -7,7 +7,7 @@
 	background-color: rgb(255,255,255);	
 	padding-bottom: 185px;   			/*ONLY FOR MAKING THE FOOTER AT BOTTOM OF PAGE AND MAKING ALL 
 											CONTENT IN BODY CONTAINER FIT IN!*/	
-	border:1px solid #000000;
+	/*border:1px solid #000000;*/
 	border-bottom: 2px solid green;		
 }
 #mainContent > #subContent{
@@ -17,19 +17,25 @@
 	background-color: rgb(255,255,255);
 	margin:0% auto;
 	padding:0%;
-	border-left:1px solid rgb(0,0,0);
-	border-right:1px solid rgb(0,0,0);
-	border:1px solid red;
+	/*border-left:1px solid rgb(0,0,0);*/
+	/*border-right:1px solid rgb(0,0,0);*/
+	/*border:1px solid red;*/
 	align-items:center;
 }
 #mainContent > #subContent > #mainCalendar{
 	display:flex;
 	flex-direction:column;
-	width:80%;
-	border:1px solid green;
+	width:100%;
+	/*border:1px solid green;*/
 	margin:0%;
 	padding:0%;	
-	align-items:center;
+	align-items:flex-start;
+}
+#mainContent > #subContent > #mainCalendar > h1{
+	text-align:center;
+	width:100%;
+	/*border:1px solid black;*/
+	display:none;
 }
 #mainContent > #subContent > #mainCalendar > #calMenu{
 	display:flex;
@@ -37,7 +43,7 @@
 	margin:0%;
 	padding:0%;	
 	width:100%;	
-	border: 1px solid orange;
+	/*border: 1px solid orange;*/
 	justify-content:center;
 	align-items:center;
 }
@@ -49,7 +55,7 @@
 	padding-right:2%;
 	margin-left:5%;
 	margin-right:5%;	
-	border:1px solid red;
+	/*border:1px solid red;*/
 }
 #mainContent > #subContent > #mainCalendar > #calMenu > #calMenuYearAndMonth{
 	display:flex;
@@ -60,7 +66,7 @@
 	margin-right:5%;
 	padding-left:3%;
 	padding-right:3%;
-	border:1px solid red;
+	/*border:1px solid red;*/
 	background-color: rgb(58,82,242);
 	color:rgb(255,255,255);
 	box-shadow: 5px 5px 5px rgb(0,0,0);
@@ -81,9 +87,71 @@
 	margin:0%;
 	padding:0%;
 	/*height:20px;*/
-	border: 1px solid green;
+	/*border: 1px solid green;*/
 	width:100%;
-	height:300px;
+	/*height:300px;*/
+	align-items:flex-start;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > h3{
+	width:100%;
+	text-align:center;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm{
+	display:flex;
+	flex-direction:column;
+	margin:0%;
+	padding:0%;
+	width:100%;
+	align-items:flex-start;
+	/*border:1px solid blue;*/
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #dateTimeFromCont,
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #dateTimeToCont{
+	display:flex;
+	flex-direction:column;
+	margin:0%;
+	padding:0%;
+	width:100%;
+	align-items:flex-start;
+	/*border:1px solid red;*/
+	margin-bottom: 5px;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #titleCont,
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #locCont,
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #descCont{
+	display:flex;
+	flex-direction:row;
+	margin:0%;
+	padding:0%;
+	width:100%;	
+	/*border:1px solid red;*/
+	margin-bottom: 5px;
+	justify-content:flex-start;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #eventSubmCont{
+	display:flex;
+	flex-direction:column;
+	margin:0%;
+	padding:0%;
+	width:100%;
+	align-items:center;
+	/*border:1px solid red;*/
+	margin-bottom: 5px;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #eventSubmCont > #addEventButton{
+	width:50%;
+}
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #dateTimeFromCont > #dateFromCont,
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #dateTimeFromCont > #timeFromCont,
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #dateTimeToCont > #dateToCont,
+#mainContent > #subContent > #mainCalendar > #calDayCont > #eventDataForm > #dateTimeToCont > #timeToCont{
+	display:flex;
+	flex-direction:row;
+	margin:0%;
+	padding:0%;
+	width:100%;	
+	/*border:1px solid blue;*/
+	/*height:25px;*/
 }
 #mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivWide{
 	display:flex;
@@ -152,17 +220,37 @@
 	font-weight:bold;
 }
 @media screen and (max-width: 850px) and (min-width: 1px){
+	#mainContent{
+		padding-bottom: 410px; 
+	}
 	#mainContent > #subContent{
 		width:100%;
 	}
 	#mainContent > #subContent > #mainCalendar{
 		width:100%;
+		align-items:center;
 	}
+	#mainContent > #subContent > #mainCalendar > h1{		
+		display:block;
+	}
+	#mainContent > #subContent > #mainCalendar > #calDaysCont{
+		align-items:center;
+	}	
 	#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivWide{
 		display:none;
 	}
 	#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivSmall{
 		display:flex;
 	}
+	/*
+	#mainContent > #subContent > #mainCalendar > #calDayCont > #dateTimeFromCont > #dateFromCont,
+	#mainContent > #subContent > #mainCalendar > #calDayCont > #dateTimeFromCont > #timeFromCont,
+	#mainContent > #subContent > #mainCalendar > #calDayCont > #dateTimeToCont > #dateToCont,
+	#mainContent > #subContent > #mainCalendar > #calDayCont > #dateTimeToCont > #timeToCont{		
+		flex-direction:column;		
+		width:100%;	
+		border:1px solid blue;		
+	}
+	*/
 }
 

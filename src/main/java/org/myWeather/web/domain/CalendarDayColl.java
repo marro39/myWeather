@@ -2,18 +2,54 @@ package org.myWeather.web.domain;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class CalendarDayColl implements Serializable{
 	
 	private static final long serialVersionUID = -934878081655994096L;
 	
-	private String weekDayOfMonth, title, description;
-	private int year, month, dayOfMonth;
+	private String weekDayOfMonth;
+	private int year;
+	private int month;
+	private int dayOfMonth;
+	private int numberOfEvents;
+	
+	public int getNumberOfEvents() {
+		return numberOfEvents;
+	}
+	public void setNumberOfEvents(int numberOfEvents) {
+		this.numberOfEvents = numberOfEvents;
+	}
+
+	/*---------------------Handling add day event data-------------------------------------------------------*/
+	@NotEmpty
+	@NotNull
+	//@Max(20)
+	private String title;
+	
+	@NotEmpty
+	@NotNull
+	//@Max(10)
+	private String ymdFrom, ymdTo;
+	
+	@NotEmpty
+	@NotNull
+	//@Max(5)
+	private String hoursMinFrom, hoursMinTo;
+	
+	//@Max(200)
+	private String description; 
+	
+	//@Max(30)
+	private String location;		
 	
 	/*---------------------------------------Contructor-----------------------------------------------------*/
 	public CalendarDayColl(int year, int month, int day){
@@ -21,6 +57,8 @@ public class CalendarDayColl implements Serializable{
 		this.month=month;
 		this.dayOfMonth=day;
 	}
+	/*---------------------------------------Contructor2----------------------------------------------------*/
+	public CalendarDayColl(){}
 	
 	/*---------------------------------------Functions------------------------------------------------------*/	
 	public String getWeekDayOfMonth() {
@@ -63,4 +101,45 @@ public class CalendarDayColl implements Serializable{
 	public void setDayOfMonth(int dayOfMonth) {
 		this.dayOfMonth = dayOfMonth;
 	}
+
+	public String getYmdFrom() {
+		return ymdFrom;
+	}
+
+	public void setYmdFrom(String ymdFrom) {
+		this.ymdFrom = ymdFrom;
+	}
+
+	public String getYmdTo() {
+		return ymdTo;
+	}
+
+	public void setYmdTo(String ymdTo) {
+		this.ymdTo = ymdTo;
+	}
+
+	public String getHoursMinFrom() {
+		return hoursMinFrom;
+	}
+
+	public void setHoursMinFrom(String hoursMinFrom) {
+		this.hoursMinFrom = hoursMinFrom;
+	}
+
+	public String getHoursMinTo() {
+		return hoursMinTo;
+	}
+
+	public void setHoursMinTo(String hoursMinTo) {
+		this.hoursMinTo = hoursMinTo;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
 }
