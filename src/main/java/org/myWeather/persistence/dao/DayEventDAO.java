@@ -9,5 +9,6 @@ import org.myWeather.persistence.domain.DayEvent;
 public interface DayEventDAO {
 	public void createDayEvent(DayEvent dayEvent);
 	public int getEventsByDate(Date dateFrom, Date dateTo);
+	public List<DayEvent> getTodayEvents(Date dateFrom, Date dateTo);
 	
 }

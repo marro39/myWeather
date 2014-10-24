@@ -35,6 +35,11 @@ public class DayEventDAOImp implements DayEventDAO{
 		return dayEventRepository.countDayEvents(dateFrom, dateTo);	
 	}
 	
+	@Override
+	public List<DayEvent> getTodayEvents(Date dateFrom, Date dateTo){
+		return dayEventRepository.getDayEvents(dateFrom, dateTo);
+	}
+	
 	
 	
 }

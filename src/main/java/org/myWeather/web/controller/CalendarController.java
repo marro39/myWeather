@@ -46,9 +46,8 @@ public class CalendarController {
 	
 	@Autowired	
 	private DayEventDAOImp dayEventDAOImp;
-
 	
-	//Spring security authentication
+	//Spring security authenticationn
 	private Authentication auth;
 	
 	/*---------------------------------------------Controller functions------------------------------------------------*/
@@ -90,7 +89,41 @@ public class CalendarController {
 		calDaysColl2.setCalDaysData(calDaysColl.getCalDaysCollList());
 		
 		return calDaysColl2;
-	}	
+	}
+	@RequestMapping(value={"/calendar/showEventsForSpecificDay"}, method=RequestMethod.GET)
+	public @ResponseBody CalendarDayColl calendarShowDayEvents(@RequestParam("eventDate") Date eventDate ){
+		
+			//Date dateFrom=new SimpleDateFormat().parse(eventDate);
+			@SuppressWarnings("deprecation")
+			//Date eventsDate=new Date(eventDate);
+			Date eventsDate=eventDate;
+			TimeZone timeZone = TimeZone.getTimeZone("Europe/Stockholm");
+			Calendar calendar=Calendar.getInstance(timeZone);
+			calendar.setTime(eventsDate);
+			//return calendar.get(Calendar.YEAR);
+			
+			
+			Calendar calendar1=Calendar.getInstance(timeZone);
+			calendar1.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			calendar1.set(Calendar.HOUR_OF_DAY, 0);
+			calendar1.set(Calendar.MINUTE, 0);
+			calendar1.set(Calendar.SECOND, 0);
+			//calendar1.set(Calendar.DAY_OF_MONTH, 0);
+			
+			Calendar calendar2=Calendar.getInstance(timeZone);
+			calendar2.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			calendar2.set(Calendar.HOUR_OF_DAY, 23);
+			calendar2.set(Calendar.MINUTE, 59);
+			calendar2.set(Calendar.SECOND, 59);
+			
+			CalendarDayColl calendarDayColl=new CalendarDayColl(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			List<DayEvent> dayEventList = dayEventDAOImp.getTodayEvents(calendar1.getTime(), calendar2.getTime());
+			calendarDayColl.setDayEvents(dayEventList);
+			
+			
+			return calendarDayColl;		
+	}
+	
 	@RequestMapping(value={"/calendarAddDayEvent"}, method=RequestMethod.POST)
 	public String addDayEvent(@Valid @ModelAttribute("calDayColl") CalendarDayColl calDayColl1, Model model, BindingResult bindingResult){
 		

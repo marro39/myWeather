@@ -1,12 +1,15 @@
 package org.myWeather.web.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.myWeather.persistence.domain.DayEvent;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -21,13 +24,7 @@ public class CalendarDayColl implements Serializable{
 	private int month;
 	private int dayOfMonth;
 	private int numberOfEvents;
-	
-	public int getNumberOfEvents() {
-		return numberOfEvents;
-	}
-	public void setNumberOfEvents(int numberOfEvents) {
-		this.numberOfEvents = numberOfEvents;
-	}
+	private List<DayEvent> dayEvents;	
 
 	/*---------------------Handling add day event data-------------------------------------------------------*/
 	@NotEmpty
@@ -55,11 +52,12 @@ public class CalendarDayColl implements Serializable{
 	public CalendarDayColl(int year, int month, int day){
 		this.year=year;
 		this.month=month;
-		this.dayOfMonth=day;
+		this.dayOfMonth=day;		
 	}
 	/*---------------------------------------Contructor2----------------------------------------------------*/
-	public CalendarDayColl(){}
-	
+	public CalendarDayColl(){
+		
+	}	
 	/*---------------------------------------Functions------------------------------------------------------*/	
 	public String getWeekDayOfMonth() {
 		return weekDayOfMonth;
@@ -141,5 +139,18 @@ public class CalendarDayColl implements Serializable{
 	public void setLocation(String location) {
 		this.location = location;
 	}
+	public int getNumberOfEvents() {
+		return numberOfEvents;
+	}
+	public void setNumberOfEvents(int numberOfEvents) {
+		this.numberOfEvents = numberOfEvents;
+	}
+	public List<DayEvent> getDayEvents() {
+		return dayEvents;
+	}
+	public void setDayEvents(List<DayEvent> dayEvents) {
+		this.dayEvents = dayEvents;
+	}
+	
 	
 }

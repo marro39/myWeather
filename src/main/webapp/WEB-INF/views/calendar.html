@@ -122,11 +122,11 @@
 							dayDateDiv.innerHTML=dayList[i].dayOfMonth;
 							dayDateDiv.className="dayDateDiv";
 							dayDiv.appendChild(dayDateDiv);	
-							alert("Number of events is: " + dayList[i].numberOfEvents);
+							//alert("Number of events is: " + dayList[i].numberOfEvents);
 							
 							var dayDateFull = document.createElement("div");
 							var dateFull = new Date(dayList[i].year, dayList[i].month, dayList[i].dayOfMonth);
-							alert(dateFull)
+							//alert(dateFull)
 							dayDateFull.innerHTML=dateFull;
 							dayDateFull.className="dayDateDiv fullDate";
 							dayDateFull.style.display="none";
@@ -139,6 +139,12 @@
 							dayEventExistsImg.className="dayEventExistsImg";
 							dayEventExistsImg.src="resources/img/activityExists.jpg";
 							dayEventExistsCont.appendChild(dayEventExistsImg);
+							if(dayList[i].numberOfEvents > 0){
+								dayEventExistsCont.style.display="flex";
+							}
+							else{
+								dayEventExistsCont.style.display="none";
+							}
 							
 							var dayAppendEventCont = document.createElement("div");
 							dayAppendEventCont.className="dayAppendEventCont";
@@ -188,7 +194,31 @@
 								alert('Fail');											
 							});	
 						});
-/*------------------------------Functionality when click on a specific day------------------------------------------*/
+/*------------------------------Functionlity to show all events from a specific day---------------------------------*/
+						$(document).on("click",".dayEventExistsCont", function(){
+							alert("Show dayEvents!");
+							var eventDate = $(this).parent().find(".fullDate").text();
+							var eventDateObj=new Date(eventDate);	 
+							alert(eventDate);
+							alert(eventDateObj);
+							$.ajax({
+								type: 'GET',		
+								url: 'calendar/showEventsForSpecificDay',
+								data: {'eventDate': eventDateObj},
+								dataType: 'json',		
+								success: function(data){
+									alert(JSON.stringify(data, null, 4));
+									//alert(data);
+									//dayEvents
+									//boolAjaxMonthLoaded=true;
+									//monthCalCont=data;										
+									//populateMonthCalendar();									
+								}		
+							}).error(function(data){
+								alert("Fail dayEvents!");
+							});
+						});
+/*------------------------------Functionality to add an event for a specific day------------------------------------------*/
 						$(document).on("click",".dayAppendEventCont", function(){
 							//alert("Click");
 							//var day=$(this).parent().find(".dayDateDiv").text();
@@ -309,7 +339,14 @@
 								var dayEventExistsImg = document.createElement("IMG");
 								dayEventExistsImg.className="dayEventExistsImg";
 								dayEventExistsImg.src="resources/img/activityExists.jpg";
-								dayEventExistsCont.appendChild(dayEventExistsImg);
+								dayEventExistsCont.appendChild(dayEventExistsImg);								
+								
+								if(monthCalCont.calDaysData[i].numberOfEvents > 0){
+									dayEventExistsCont.style.display="flex";
+								}
+								else{
+									dayEventExistsCont.style.display="none";
+								}								
 								
 								var dayAppendEventCont = document.createElement("div");
 								dayAppendEventCont.className="dayAppendEventCont";
