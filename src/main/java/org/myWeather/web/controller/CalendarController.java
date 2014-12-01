@@ -92,23 +92,15 @@ public class CalendarController {
 	}
 	@RequestMapping(value={"/calendar/showEventsForSpecificDay"}, method=RequestMethod.GET)
 	public @ResponseBody CalendarDayColl calendarShowDayEvents(@RequestParam("eventDate") Date eventDate ){
-		
-			//Date dateFrom=new SimpleDateFormat().parse(eventDate);
-			@SuppressWarnings("deprecation")
-			//Date eventsDate=new Date(eventDate);
-			Date eventsDate=eventDate;
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Stockholm");
-			Calendar calendar=Calendar.getInstance(timeZone);
-			calendar.setTime(eventsDate);
-			//return calendar.get(Calendar.YEAR);
-			
+			Calendar calendar=Calendar.getInstance(timeZone);			
+			calendar.setTime(eventDate);
 			
 			Calendar calendar1=Calendar.getInstance(timeZone);
 			calendar1.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 			calendar1.set(Calendar.HOUR_OF_DAY, 0);
 			calendar1.set(Calendar.MINUTE, 0);
-			calendar1.set(Calendar.SECOND, 0);
-			//calendar1.set(Calendar.DAY_OF_MONTH, 0);
+			calendar1.set(Calendar.SECOND, 0);			
 			
 			Calendar calendar2=Calendar.getInstance(timeZone);
 			calendar2.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -118,8 +110,7 @@ public class CalendarController {
 			
 			CalendarDayColl calendarDayColl=new CalendarDayColl(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 			List<DayEvent> dayEventList = dayEventDAOImp.getTodayEvents(calendar1.getTime(), calendar2.getTime());
-			calendarDayColl.setDayEvents(dayEventList);
-			
+			calendarDayColl.setDayEvents(dayEventList);			
 			
 			return calendarDayColl;		
 	}

@@ -12,6 +12,13 @@
 	text-align:right;
 	display:inline-block;
 }
+.labelRight2{
+	width:20%;	 
+	font-weight:bold;
+	/*border:1px solid orange;*/
+	text-align:right;
+	display:inline-block;
+}
 .labelLeft{
 	width:45%;	 
 	font-weight:normal;

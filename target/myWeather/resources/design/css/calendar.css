@@ -192,6 +192,116 @@
 	width:100%;
 	height:100%;
 }
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont{
+	display:none;
+	flex-direction:column;
+	margin:0%;
+	padding:0%;
+	/*height:20px;*/
+	/*border: 1px solid green;*/
+	width:100%;
+	/*height:300px;*/
+	align-items:center;
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > #specDayEventsHeaderCont{
+	display:flex;
+	flex-direction: column;
+	margin:0%;
+	padding:0%;	
+	/*border:1px solid black;*/
+	width:50%;	
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > #specDayEventsHeaderCont > h2{
+	text-align:center;
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent{
+	display:flex;
+	flex-direction: column;
+	margin:0%;
+	padding:10px 0% 10px 0%;	
+	margin-bottom:10px;
+	border:1px solid black;
+	width:50%;
+	/*height:100px;*/
+	box-shadow: 5px 5px 8px rgb(0,0,0);	
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .eventManipulateCont{
+	display:flex;
+	flex-direction: row;
+	margin:0%;
+	padding:0%;	
+	/*border:1px solid red;*/
+	justify-content:flex-end;
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .calEditFields[readonly="readonly"]{
+		
+}
+
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .eventManipulateCont > .editSpecEventCont,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .eventManipulateCont > .deleteSpecEventCont{
+	display:flex;
+	flex-direction: column;
+	margin:0px 2%;
+	padding:0%;	
+	/*border:1px solid red;*/
+	justify-content:flex-end;
+	width:5%;
+	height:20px;
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .eventManipulateCont > .editSpecEventCont > img,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .eventManipulateCont > .deleteSpecEventCont > img{
+	display:flex;
+	flex-direction: column;
+	margin:0%;
+	padding:0%;	
+	width:100%;
+	height:100%;
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .dateCont{
+	display:flex;
+	flex-direction: column;
+	margin:0%;
+	padding:10px 0%;	
+	/*border:1px solid green;*/
+}
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .titleCont,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .descrCont,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .locCont
+{
+	display:flex;
+	flex-direction: row;
+	margin:0%;
+	padding:5px 0%;	
+	/*border:1px solid red;*/
+}
+/*
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .titleCont > input,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .descrCont > input,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .locCont > input{
+	display:flex;
+	flex-direction: column;
+	margin:0%;
+	padding:0%;
+	border:1px solid purple;
+}
+*/
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .dateCont > .dateFromCont,
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .dateCont > .dateToCont{
+	display:flex;
+	flex-direction: row;
+	margin:0%;
+	padding:5px 0%;	
+	/*border:1px solid red;*/
+}
+/*
+#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent > .dateCont > .dateToCont > input{
+	display:flex;
+	flex-direction: column;
+	margin:0%;
+	padding:0%;
+	border:1px solid purple;
+}
+*/
 .weekDiv{	
 	display:flex;
 	flex-direction:row;
@@ -241,6 +351,12 @@
 	}
 	#mainContent > #subContent > #mainCalendar > #calDaysCont > #weekDivSmall{
 		display:flex;
+	}
+	#mainContent > #subContent > #mainCalendar > #specDayEventsCont > .dayEvent{		
+		width:100%;			
+	}
+	#mainContent > #subContent > #mainCalendar > #specDayEventsCont > #specDayEventsHeaderCont{
+		width:100%;
 	}
 	/*
 	#mainContent > #subContent > #mainCalendar > #calDayCont > #dateTimeFromCont > #dateFromCont,

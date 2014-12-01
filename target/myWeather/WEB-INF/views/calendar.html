@@ -65,6 +65,11 @@
 									<input type="submit" class="button" id="addEventButton" value="Submit" />
 								</div>
 							</form>
+						</article>
+						<article id="specDayEventsCont">
+							<div id="specDayEventsHeaderCont">
+								<h2 id="specDayEventsHeader">Events for day</h2>
+							</div>							
 						</article>						
 					</section>
 				</div>
@@ -196,10 +201,10 @@
 						});
 /*------------------------------Functionlity to show all events from a specific day---------------------------------*/
 						$(document).on("click",".dayEventExistsCont", function(){
-							alert("Show dayEvents!");
+							//alert("Show dayEvents!");
 							var eventDate = $(this).parent().find(".fullDate").text();
 							var eventDateObj=new Date(eventDate);	 
-							alert(eventDate);
+							//alert(eventDate);
 							alert(eventDateObj);
 							$.ajax({
 								type: 'GET',		
@@ -207,7 +212,161 @@
 								data: {'eventDate': eventDateObj},
 								dataType: 'json',		
 								success: function(data){
-									alert(JSON.stringify(data, null, 4));
+									//alert(JSON.stringify(data, null, 4));
+									var specDayEventsCont=document.getElementById("specDayEventsCont");
+									specDayEventsCont.style.display="flex";
+									$("#calDaysCont").css("display","none");
+									$("#calDayCont").css("display","none");
+									$("#calMenu").css("display","none");
+									//dayEvents
+									alert(JSON.stringify(data.dayEvents, null, 4));
+									
+									var dateToday=new Date(data.dayEvents[0].dateFrom);
+									var header=document.getElementById("specDayEventsHeader");
+									header.innerHTML="Events for&nbsp;" + dateToday.getFullYear() + "-" + (dateToday.getMonth()+1) + "-" + dateToday.getDate();									
+									
+									for(var dayEvent in data.dayEvents){
+										//alert(data.dayEvents[dayEvent].id);
+										//alert("Dayeventttt");
+										var dayEventData=data.dayEvents[dayEvent];
+										
+										var dayEventCont=document.createElement("div");
+										dayEventCont.className="dayEvent";										
+										specDayEventsCont.appendChild(dayEventCont);
+										
+										var eventManipulateCont=document.createElement("div");
+										eventManipulateCont.className="eventManipulateCont";
+										dayEventCont.appendChild(eventManipulateCont);										
+										
+										var editSpecEventCont=document.createElement("div");
+										editSpecEventCont.className="editSpecEventCont";
+										eventManipulateCont.appendChild(editSpecEventCont);
+										
+										var imageEdit=document.createElement("img");
+										imageEdit.setAttribute("src", "resources/img/edit_delete/edit.png");
+										editSpecEventCont.appendChild(imageEdit);
+										
+										var deleteSpecEventCont=document.createElement("div");
+										deleteSpecEventCont.className="deleteSpecEventCont";
+										eventManipulateCont.appendChild(deleteSpecEventCont);
+										
+										var imageDelete=document.createElement("img");
+										imageDelete.setAttribute("src", "resources/img/edit_delete/delete.jpg");
+										deleteSpecEventCont.appendChild(imageDelete);
+										
+										var dateFrom=new Date(dayEventData.dateFrom);
+										var dateTo=new Date(dayEventData.dateTo);
+										
+										var dateCont=document.createElement("div");
+										dateCont.className="dateCont";
+										dayEventCont.appendChild(dateCont);
+										
+										var dateFromCont=document.createElement("div");
+										dateFromCont.className="dateFromCont";
+										dateCont.appendChild(dateFromCont);
+										
+										var dateFromLabel=document.createElement("LABEL");										
+										dateFromLabel.htmlFor=dateFromInput;
+										dateFromLabel.className="labelRight";
+										dateFromLabel.innerHTML="From:&nbsp;";
+										dateFromCont.appendChild(dateFromLabel);
+										
+										var dateFromInput=document.createElement("input");
+										dateFromInput.type="text";
+										dateFromInput.className="calEditFields";
+										dateFromInput.value=dateFrom.getFullYear() + "-" + (dateFrom.getMonth()+1) + "-" + dateFrom.getDate() + " " + dateFrom.getHours() + ":" + (dateFrom.getMinutes() < 10 ? '0' : '') + "" + dateFrom.getMinutes();
+										dateFromCont.appendChild(dateFromInput);
+										
+										var dateToCont=document.createElement("div");
+										dateToCont.className="dateToCont";
+										dateCont.appendChild(dateToCont);
+										
+										var dateToLabel=document.createElement("LABEL");										
+										dateToLabel.htmlFor=dateToInput;
+										dateToLabel.className="labelRight";
+										dateToLabel.innerHTML="To:&nbsp;";
+										dateToCont.appendChild(dateToLabel);										
+										
+										var dateToInput=document.createElement("input");
+										dateToInput.type="text";
+										dateToInput.value=dateTo.getFullYear() + "-" + (dateTo.getMonth()+1) + "-" + dateTo.getDate() + " " + dateTo.getHours() + ":" + (dateTo.getMinutes() < 10 ? '0' : '') + "" + dateTo.getMinutes();
+										dateToCont.appendChild(dateToInput);
+										
+										var titleCont=document.createElement("div");
+										titleCont.className="titleCont";
+										dayEventCont.appendChild(titleCont);										
+										
+										var titleLabel=document.createElement("LABEL");										
+										titleLabel.htmlFor=title;
+										titleLabel.className="labelRight";
+										titleLabel.innerHTML="Title:&nbsp;";
+										titleCont.appendChild(titleLabel);
+										
+										var title=document.createElement("input");										
+										title.type="text";
+										title.value=dayEventData.title;
+										titleCont.appendChild(title);
+										
+										if(dayEventData.description != null){
+											var descrCont=document.createElement("div");
+											descrCont.className="descrCont";
+											dayEventCont.appendChild(descrCont);
+											
+											var descrLabel=document.createElement("LABEL");											
+											descrLabel.htmlFor=descrText;
+											descrLabel.className="labelRight";
+											descrLabel.innerHTML="Description:&nbsp;";
+											descrCont.appendChild(descrLabel);
+											
+											var descrText=document.createElement("textarea");											
+											descrText.value=dayEventData.description;
+											descrCont.appendChild(descrText);
+										}
+										
+										if(dayEventData.location != null){
+											var locCont=document.createElement("div");
+											locCont.className="locCont";
+											dayEventCont.appendChild(locCont);
+											
+											var locLabel=document.createElement("LABEL");											
+											locLabel.htmlFor=locText;
+											locLabel.className="labelRight";
+											locLabel.innerHTML="Location:&nbsp;";
+											locCont.appendChild(locLabel);
+											
+											var locText=document.createElement("input");											
+											locText.type="text";
+											locText.value=dayEventData.location											
+											locCont.appendChild(locText);
+										}
+										
+										var eventId=document.createElement("input");
+										eventId.type="hidden";
+										eventId.className="hiddenID";
+										eventId.value=dayEventData.userId;
+										dayEventCont.appendChild(eventId);
+										
+										var fullDateFrom=document.createElement("input");
+										fullDateFrom.type="hidden";
+										fullDateFrom.className="fullDateFrom";
+										fullDateFrom.value=dateFrom.getTime();
+										dayEventCont.appendChild(fullDateFrom);
+										
+										var fullDateTo=document.createElement("input");
+										fullDateTo.type="hidden";
+										fullDateTo.className="fullDateTo";
+										fullDateTo.value=dateTo.getTime();
+										dayEventCont.appendChild(fullDateTo);
+										
+									}
+									//title
+									//description
+									//location
+									//userId
+									//dateFrom
+									//dateTo
+									
+									
 									//alert(data);
 									//dayEvents
 									//boolAjaxMonthLoaded=true;
